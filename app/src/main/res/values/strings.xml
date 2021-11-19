@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Collections and Maps</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="collections">Collections</string>
+    <string name="maps">Maps</string>
+    <string name="Please_enter_collection">Please enter collection size and number of elements to compare</string>
+    <string name="collection_size">Collection size</string>
+    <string name="calculate">Calculate</string>
+    <string name="map_size">Map size</string>
+    <string name="please_enter_map_size">Please enter map size and number of elements to compare</string>
+    <string name="clear">Clear</string>
+    <string name="title">TITLE</string>
 </resources>
