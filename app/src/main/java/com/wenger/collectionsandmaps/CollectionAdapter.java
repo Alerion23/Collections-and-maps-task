@@ -52,7 +52,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             IGetResult getResult = time -> {
                 h.result.setText(String.valueOf(time));
                 h.loading.setVisibility(ProgressBar.GONE);
-                Log.i("SOSI", "CallBack");
             };
             switch (position) {
                 case 1: {

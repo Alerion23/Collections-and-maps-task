@@ -35,7 +35,6 @@ public class ResultItem extends BaseItem {
 
     public void arrayListAddInTheBeginning(IGetResult getResult) {
         Single.fromCallable(() -> {
-            Log.i("ZALUPA", "Start func Add in the Beginning");
             ArrayList<Integer> size = new ArrayList<Integer>();
             for (int y = 0; y < collectionSize; y++) {
                 size.add(y);
