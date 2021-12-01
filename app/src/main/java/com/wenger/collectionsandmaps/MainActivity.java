@@ -1,26 +1,31 @@
 package com.wenger.collectionsandmaps;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewbinding.ViewBinding;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.text.Layout;
+
 import android.view.View;
 
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.wenger.collectionsandmaps.databinding.ActivityMainBinding;
 
+import java.util.Arrays;
+import java.util.List;
+
 import fragments.CalculCollectionsFragment;
+import fragments.CalculMapsFragment;
+import fragments.CollectionsFragment;
+import fragments.MapsFragment;
 
 public class MainActivity extends FragmentActivity {
 
     private ActivityMainBinding binding;
+    private PagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,7 @@ public class MainActivity extends FragmentActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        pagerAdapter = new PagerAdapter(this);
         binding.viewPager2.setAdapter(new PagerAdapter(this));
         new TabLayoutMediator(binding.tabLayout, binding.viewPager2,
                 (tab, position) -> {
@@ -45,10 +51,4 @@ public class MainActivity extends FragmentActivity {
         ).attach();
     }
 
-    public void replaceCollectionFragment (Fragment fragment, Integer layout) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(layout, fragment, null)
-                .addToBackStack(null)
-                .commit();
-    }
 }

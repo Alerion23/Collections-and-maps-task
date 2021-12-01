@@ -1,5 +1,6 @@
 package com.wenger.collectionsandmaps;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,11 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.itemList = itemList;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void setCollectionItems(List<BaseItem> baseItems) {
+        this.itemList = baseItems;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -47,100 +53,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             h.header.setText(header.getHeader());
         } else {
             ItemViewHolder h = (ItemViewHolder) holder;
-            ResultItem title = ((ResultItem) itemList.get(position));
-            h.title.setText(title.getTitle());
-            IGetResult getResult = time -> {
-                h.result.setText(String.valueOf(time));
-                h.loading.setVisibility(ProgressBar.GONE);
-            };
-            switch (position) {
-                case 1: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListAddInTheBeginning(getResult);
-                }
-                case 2: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListAddInTheBeginning(getResult);
-                }
-                case 3: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteAddInTheBeginning(getResult);
-                }
-                case 5: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListAddInTheMiddle(getResult);
-                }
-                case 6: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListAddInTheMiddle(getResult);
-                }
-                case 7: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteAddInTheMiddle(getResult);
-                }
-                case 9: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListAddInTheEnd(getResult);
-                }
-                case 10: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListAddInTheEnd(getResult);
-                }
-                case 11: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteAddInTheEnd(getResult);
-                }
-                case 13: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListSearchBy(getResult);
-                }
-                case 14: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListSearByValue(getResult);
-                }
-                case 15: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteSearchByValue(getResult);
-                }
-                case 17: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListRemoveInTheBeginning(getResult);
-                }
-                case 18: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListRemoveInTheBeginning(getResult);
-                }
-                case 19: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteRemovingInTheBeginning(getResult);
-                }
-                case 21: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListRemoveInTheMiddle(getResult);
-                }
-                case 22: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListRemoveInTheMiddle(getResult);
-                }
-                case 23: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteRemovingInTheMiddle(getResult);
-                }
-                case 25: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.arrayListRemoveInTheEnd(getResult);
-                }
-                case 26: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.linkInListRemoveInTheEnd(getResult);
-                }
-                case 27: {
-                    ResultItem result = ((ResultItem) itemList.get(position));
-                    result.copyOnWriteRemovingInTheEnd(getResult);
-                }
+            ResultItem item = ((ResultItem) itemList.get(position));
+            h.title.setText(item.getTitle());
+            if (item.getResult() >= 0) {
+                h.result.setText(item.getResult().toString());
+                h.loading.setVisibility(View.GONE);
             }
         }
-
     }
 
     @Override

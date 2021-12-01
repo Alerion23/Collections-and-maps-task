@@ -56,7 +56,7 @@ public class MapsFragment extends Fragment {
                 CalculMapsFragment fragment =
                         CalculMapsFragment.newInstance(Integer.parseInt(editText));
                 getChildFragmentManager().beginTransaction()
-                        .replace(R.id.inner_fragment_container, fragment, null)
+                        .replace(R.id.inner_maps_fragment_container, fragment, null)
                         .addToBackStack(null)
                         .commit();
             }

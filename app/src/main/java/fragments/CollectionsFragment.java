@@ -58,7 +58,7 @@ public class CollectionsFragment extends Fragment {
                 CalculCollectionsFragment fragment =
                         CalculCollectionsFragment.newInstance(Integer.parseInt(editText));
                 getChildFragmentManager().beginTransaction()
-                        .replace(R.id.inner_fragment_container, fragment, null)
+                        .replace(R.id.inner_collection_fragment_container, fragment, null)
                         .addToBackStack(null)
                         .commit();
             }
