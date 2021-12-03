@@ -28,7 +28,6 @@ public class PagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-
         return 2;
     }
 }

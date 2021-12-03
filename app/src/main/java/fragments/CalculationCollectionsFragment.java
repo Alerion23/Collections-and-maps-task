@@ -19,51 +19,27 @@ import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CalculationService;
 import com.wenger.collectionsandmaps.CollectionAdapter;
 import com.wenger.collectionsandmaps.HeaderItem;
-import com.wenger.collectionsandmaps.MyBroadcastReceiver;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 import com.wenger.collectionsandmaps.databinding.FragmentCalcCollectionsBinding;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
-public class CalculCollectionsFragment extends Fragment {
+public class CalculationCollectionsFragment extends Fragment {
 
     private FragmentCalcCollectionsBinding binding;
     private CollectionAdapter adapter;
-    MyBroadcastReceiver br;
+    private BroadcastReceiver br;
+    private List<BaseItem> defaultItems;
+    private String arrayList;
+    private String linkedList;
+    private String copyOnWrite;
 
-    List<BaseItem> defaultItems = Arrays.asList(new HeaderItem("Adding in the beginning"),
-            new ResultItem(-1, "ArrayList", 100),
-            new ResultItem(-1, "LinkedList", 101),
-            new ResultItem(-1, "CopyOnWrite", 102),
-            new HeaderItem("Adding in the middle"),
-            new ResultItem(-1, "ArrayList", 103),
-            new ResultItem(-1, "LinkedList", 104),
-            new ResultItem(-1, "CopyOnWrite", 105),
-            new HeaderItem("Adding in the end"),
-            new ResultItem(-1, "ArrayList", 106),
-            new ResultItem(-1, "LinkedList", 107),
-            new ResultItem(-1, "CopyOnWrite", 108),
-            new HeaderItem("Search by value"),
-            new ResultItem(-1, "ArrayList", 109),
-            new ResultItem(-1, "LinkedList", 110),
-            new ResultItem(-1, "CopyOnWrite", 111),
-            new HeaderItem("Removing in the beginning"),
-            new ResultItem(-1, "ArrayList", 112),
-            new ResultItem(-1, "LinkedList", 113),
-            new ResultItem(-1, "CopyOnWrite", 114),
-            new HeaderItem("Removing in the middle"),
-            new ResultItem(-1, "ArrayList", 115),
-            new ResultItem(-1, "LinkedList", 116),
-            new ResultItem(-1, "CopyOnWrite", 117),
-            new HeaderItem("Removing in the end"),
-            new ResultItem(-1, "ArrayList", 118),
-            new ResultItem(-1, "LinkedList", 119),
-            new ResultItem(-1, "CopyOnWrite", 120));
 
-    public CalculCollectionsFragment() {
+    public CalculationCollectionsFragment() {
         super(R.layout.fragment_calc_collections);
     }
 
@@ -77,11 +53,11 @@ public class CalculCollectionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Integer collectionSize = getArguments() != null ? getArguments().getInt("collectionSize") : 0;
+        createDefaultList();
+        int collectionSize = getArguments() != null ? getArguments().getInt("collectionSize") : 0;
         Intent service = new Intent(getActivity(), CalculationService.class);
         service.putExtra("collectionSize", collectionSize);
         getContext().startService(service);
-        registerReceiver();
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -92,7 +68,43 @@ public class CalculCollectionsFragment extends Fragment {
         binding.collectionsRecycler.setLayoutManager(layoutManager);
         adapter = new CollectionAdapter(defaultItems);
         binding.collectionsRecycler.setAdapter(adapter);
+        registerReceiver();
         onClearClickListener();
+    }
+
+    private List<BaseItem> createDefaultList() {
+        arrayList = getActivity().getString(R.string.arrayList);
+        linkedList = getActivity().getString(R.string.linkedList);
+        copyOnWrite = getActivity().getString(R.string.copyOnWrite);
+        defaultItems = Arrays.asList(new HeaderItem(getActivity().getString(R.string.add_in_the_beginning_collection)),
+                new ResultItem(-1, arrayList, 100),
+                new ResultItem(-1, linkedList, 101),
+                new ResultItem(-1, copyOnWrite, 102),
+                new HeaderItem(getActivity().getString(R.string.add_in_the_middle_collection)),
+                new ResultItem(-1, arrayList, 103),
+                new ResultItem(-1, linkedList, 104),
+                new ResultItem(-1, copyOnWrite, 105),
+                new HeaderItem(getActivity().getString(R.string.add_in_the_end_collection)),
+                new ResultItem(-1, arrayList, 106),
+                new ResultItem(-1, linkedList, 107),
+                new ResultItem(-1, copyOnWrite, 108),
+                new HeaderItem(getActivity().getString(R.string.search_by_value_collection)),
+                new ResultItem(-1, arrayList, 109),
+                new ResultItem(-1, linkedList, 110),
+                new ResultItem(-1, copyOnWrite, 111),
+                new HeaderItem(getActivity().getString(R.string.remove_in_the_beginning_collection)),
+                new ResultItem(-1, arrayList, 112),
+                new ResultItem(-1, linkedList, 113),
+                new ResultItem(-1, copyOnWrite, 114),
+                new HeaderItem(getActivity().getString(R.string.remove_in_the_middle_collection)),
+                new ResultItem(-1, arrayList, 115),
+                new ResultItem(-1, linkedList, 116),
+                new ResultItem(-1, copyOnWrite, 117),
+                new HeaderItem(getActivity().getString(R.string.remove_in_the_end_collection)),
+                new ResultItem(-1, arrayList, 118),
+                new ResultItem(-1, linkedList, 119),
+                new ResultItem(-1, copyOnWrite, 120));
+        return defaultItems;
     }
 
     @Override
@@ -102,11 +114,11 @@ public class CalculCollectionsFragment extends Fragment {
     }
 
     private void registerReceiver() {
-        br = new MyBroadcastReceiver() {
+        br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Integer resultCollection = intent.getExtras().getInt("result");
-                Integer idCollection = intent.getExtras().getInt("id");
+                int resultCollection = intent.getExtras().getInt("result");
+                int idCollection = intent.getExtras().getInt("id");
                 for (int i = 0; i < defaultItems.size(); i++) {
                     BaseItem item = defaultItems.get(i);
                     if (item instanceof ResultItem && ((ResultItem) item).getId() == idCollection) {
@@ -132,8 +144,8 @@ public class CalculCollectionsFragment extends Fragment {
         adapter.setCollectionItems(resultItems);
     }
 
-    public static CalculCollectionsFragment newInstance(Integer collectionSize) {
-        CalculCollectionsFragment fragment = new CalculCollectionsFragment();
+    public static CalculationCollectionsFragment newInstance(Integer collectionSize) {
+        CalculationCollectionsFragment fragment = new CalculationCollectionsFragment();
         Bundle args = new Bundle();
         args.putInt("collectionSize", collectionSize);
         fragment.setArguments(args);

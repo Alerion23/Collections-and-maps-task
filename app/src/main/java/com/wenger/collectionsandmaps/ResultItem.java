@@ -19,11 +19,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ResultItem extends BaseItem {
 
-    private Integer result;
+    private int result;
+    private int id;
     private String title;
-    private Integer id;
 
-    public ResultItem(Integer result, String title, Integer id) {
+    public ResultItem(int result, String title, int id) {
         super("result");
         this.title = title;
         this.result = result;

@@ -22,6 +22,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<BaseItem> itemList;
     public static final int VIEW_TYPE_HEADER = 0;
     public static final int VIEW_TYPE_ITEM = 1;
+    private String headerOfItem = "header";
 
     public CollectionAdapter(List<BaseItem> itemList) {
         this.itemList = itemList;
@@ -29,8 +30,18 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @SuppressLint("NotifyDataSetChanged")
     public void setCollectionItems(List<BaseItem> baseItems) {
-        this.itemList = baseItems;
-        notifyDataSetChanged();
+        for (int i = 0; i < baseItems.size(); i++) {
+            BaseItem defaultItem = itemList.get(i);
+            BaseItem newItem = baseItems.get(i);
+            if (defaultItem instanceof ResultItem && newItem instanceof ResultItem &&
+                    ((ResultItem) defaultItem).getId().equals(((ResultItem) newItem).getId())) {
+                if (((ResultItem) defaultItem).getResult() != ((ResultItem) newItem).getResult()) {
+                    itemList.set(i, new ResultItem(((ResultItem) newItem).getResult(),
+                            ((ResultItem) defaultItem).getTitle(), ((ResultItem) defaultItem).getId()));
+                    notifyItemChanged(i);
+                }
+            }
+        }
     }
 
     @NonNull
@@ -47,7 +58,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (itemList.get(position).getType() == "header") {
+        if (itemList.get(position).getType() == headerOfItem) {
             HeaderViewHolder h = (HeaderViewHolder) holder;
             HeaderItem header = ((HeaderItem) itemList.get(position));
             h.header.setText(header.getHeader());
@@ -69,7 +80,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (itemList.get(position).getType() == "header") {
+        if (itemList.get(position).getType() == headerOfItem) {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;

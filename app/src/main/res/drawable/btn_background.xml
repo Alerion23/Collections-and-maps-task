@@ -4,10 +4,10 @@
     <item android:state_enabled="true">
         <shape android:shape="rectangle">
             <corners
-                android:bottomRightRadius="5dp"
-                android:bottomLeftRadius="5dp"
-                android:topLeftRadius="5dp"
-                android:topRightRadius="5dp"/>
+                android:bottomRightRadius="@dimen/button_radius"
+                android:bottomLeftRadius="@dimen/button_radius"
+                android:topLeftRadius="@dimen/button_radius"
+                android:topRightRadius="@dimen/button_radius"/>
             <solid android:color="@color/purple_500" />
         </shape>
     </item>
@@ -15,10 +15,10 @@
     <item>
         <shape android:shape="rectangle">
             <corners
-                android:bottomRightRadius="5dp"
-                android:bottomLeftRadius="5dp"
-                android:topLeftRadius="5dp"
-                android:topRightRadius="5dp"/>
+                android:bottomRightRadius="@dimen/button_radius"
+                android:bottomLeftRadius="@dimen/button_radius"
+                android:topLeftRadius="@dimen/button_radius"
+                android:topRightRadius="@dimen/button_radius"/>
             <solid android:color="@color/purple_500"/>
         </shape>
     </item>

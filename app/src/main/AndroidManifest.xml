@@ -23,13 +23,7 @@
         </activity>
 
         <service android:name=".CalculationService" />
-        <receiver
-            android:name=".MyBroadcastReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="CollectionCalculate" />
-            </intent-filter>
-        </receiver>
+
     </application>
 
 </manifest>

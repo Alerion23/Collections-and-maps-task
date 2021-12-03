@@ -1,5 +1,6 @@
 package fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -18,7 +19,6 @@ import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CalculationService;
 import com.wenger.collectionsandmaps.HeaderItem;
 import com.wenger.collectionsandmaps.MapsAdapter;
-import com.wenger.collectionsandmaps.MyBroadcastReceiver;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 import com.wenger.collectionsandmaps.databinding.FragmentCalcMapsBinding;
@@ -26,24 +26,18 @@ import com.wenger.collectionsandmaps.databinding.FragmentCalcMapsBinding;
 import java.util.Arrays;
 import java.util.List;
 
-public class CalculMapsFragment extends Fragment {
-    public CalculMapsFragment() {
+public class CalculationMapsFragment extends Fragment {
+    public CalculationMapsFragment() {
         super(R.layout.fragment_calc_maps);
     }
 
     private FragmentCalcMapsBinding binding;
-    MapsAdapter adapter;
-    MyBroadcastReceiver br;
+    private MapsAdapter adapter;
+    private BroadcastReceiver br;
+    private List<BaseItem> defaultItems;
+    private String treeMap;
+    private String hashMap;
 
-    List<BaseItem> defaultItems = Arrays.asList(new HeaderItem("Adding new"),
-            new ResultItem(-1, "TreeMap", 121),
-            new ResultItem(-1, "HashMap", 122),
-            new HeaderItem("Search by key"),
-            new ResultItem(-1, "TreeMap", 123),
-            new ResultItem(-1, "HashMap", 124),
-            new HeaderItem("Removing"),
-            new ResultItem(-1, "TreeMap", 125),
-            new ResultItem(-1, "HashMap", 126));
 
     @Nullable
     @Override
@@ -55,11 +49,11 @@ public class CalculMapsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Integer mapSize = getArguments() != null ? getArguments().getInt("mapsSize") : 0;
+        createDefaultList();
+        int mapSize = getArguments() != null ? getArguments().getInt("mapsSize") : 0;
         Intent service = new Intent(getActivity(), CalculationService.class);
         service.putExtra("mapSize", mapSize);
         getContext().startService(service);
-        registerReceiver();
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -70,7 +64,23 @@ public class CalculMapsFragment extends Fragment {
         binding.mapRecycler.setLayoutManager(layoutManager);
         adapter = new MapsAdapter(defaultItems);
         binding.mapRecycler.setAdapter(adapter);
+        registerReceiver();
         onClearClickListener();
+    }
+
+    private List<BaseItem> createDefaultList() {
+        String treeMap = getString(R.string.treeMap);
+        String hashMap = getString(R.string.hashMap);
+        defaultItems = Arrays.asList(new HeaderItem(getString(R.string.adding_new_map)),
+                new ResultItem(-1, treeMap, 121),
+                new ResultItem(-1, hashMap, 122),
+                new HeaderItem(getString(R.string.search_by_key_map)),
+                new ResultItem(-1, treeMap, 123),
+                new ResultItem(-1, hashMap, 124),
+                new HeaderItem(getString(R.string.removing_map)),
+                new ResultItem(-1, treeMap, 125),
+                new ResultItem(-1, hashMap, 126));
+        return defaultItems;
     }
 
     @Override
@@ -80,15 +90,15 @@ public class CalculMapsFragment extends Fragment {
     }
 
     private void registerReceiver() {
-        br = new MyBroadcastReceiver() {
+        br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Integer resultMaps = intent.getExtras().getInt("resultMaps");
-                Integer idMaps = intent.getExtras().getInt("idMaps");
+                int resultMaps = intent.getExtras().getInt("resultMaps");
+                int idMaps = intent.getExtras().getInt("idMaps");
                 for (int y = 0; y < defaultItems.size(); y++) {
                     BaseItem item = defaultItems.get(y);
                     if (item instanceof ResultItem && ((ResultItem) item).getId() == idMaps) {
-                        defaultItems.set(y, new ResultItem( resultMaps,
+                        defaultItems.set(y, new ResultItem(resultMaps,
                                 ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
                     }
                 }
@@ -109,8 +119,8 @@ public class CalculMapsFragment extends Fragment {
         adapter.setMapsItems(itemList);
     }
 
-    public static CalculMapsFragment newInstance(Integer mapSize) {
-        CalculMapsFragment fragment = new CalculMapsFragment();
+    public static CalculationMapsFragment newInstance(Integer mapSize) {
+        CalculationMapsFragment fragment = new CalculationMapsFragment();
         Bundle args = new Bundle();
         args.putInt("mapsSize", mapSize);
         fragment.setArguments(args);

@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
-import com.wenger.collectionsandmaps.MainActivity;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentCollectionsBinding;
 
@@ -55,8 +54,10 @@ public class CollectionsFragment extends Fragment {
         binding.calculateCollection.setOnClickListener(v -> {
             String editText = binding.typeCollectionSize.getText().toString();
             if (!(editText.isEmpty())) {
-                CalculCollectionsFragment fragment =
-                        CalculCollectionsFragment.newInstance(Integer.parseInt(editText));
+                CalculationCollectionsFragment fragment =
+                        CalculationCollectionsFragment.newInstance(Integer.parseInt(editText));
+//                CalculationCollectionsFragment fragment =
+//                        CalculationCollectionsFragment.newInstance(Integer.parseInt(editText));
                 getChildFragmentManager().beginTransaction()
                         .replace(R.id.inner_collection_fragment_container, fragment, null)
                         .addToBackStack(null)

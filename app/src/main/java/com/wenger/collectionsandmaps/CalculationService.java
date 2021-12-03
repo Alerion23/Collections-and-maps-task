@@ -18,40 +18,22 @@ import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class CalculationService extends Service {
+
+    private String collectionResult = "result";
+    private String collectionId = "id";
+    private String mapResult = "resultMaps";
+    private String mapId = "idMaps";
+    private String action = "CollectionCalculate";
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Integer collectionSize = intent.getExtras().getInt("collectionSize");
-        Integer mapsSize = intent.getExtras().getInt("mapSize");
+        int collectionSize = intent.getExtras().getInt("collectionSize");
+        int mapsSize = intent.getExtras().getInt("mapSize");
         if (collectionSize != 0) {
-            arrayListAddInTheBeginning(collectionSize);
-            linkInListAddInTheBeginning(collectionSize);
-            copyOnWriteAddInTheBeginning(collectionSize);
-            arrayListAddInTheMiddle(collectionSize);
-            linkInListAddInTheMiddle(collectionSize);
-            copyOnWriteAddInTheMiddle(collectionSize);
-            arrayListAddInTheEnd(collectionSize);
-            linkInListAddInTheEnd(collectionSize);
-            copyOnWriteAddInTheEnd(collectionSize);
-            arrayListSearchBy(collectionSize);
-            linkInListSearByValue(collectionSize);
-            copyOnWriteSearchByValue(collectionSize);
-            arrayListRemoveInTheBeginning(collectionSize);
-            linkInListRemoveInTheBeginning(collectionSize);
-            copyOnWriteRemovingInTheBeginning(collectionSize);
-            arrayListRemoveInTheMiddle(collectionSize);
-            linkInListRemoveInTheMiddle(collectionSize);
-            copyOnWriteRemovingInTheMiddle(collectionSize);
-            arrayListRemoveInTheEnd(collectionSize);
-            linkInListRemoveInTheEnd(collectionSize);
-            copyOnWriteRemovingInTheEnd(collectionSize);
+            collectionCalculate(collectionSize);
         }
         if (mapsSize != 0) {
-            treeMapAddingNew(mapsSize);
-            hashMapAddingNew(mapsSize);
-            treeMapSearchByKey(mapsSize);
-            hashMapSearchByKey(mapsSize);
-            treeMapRemove(mapsSize);
-            hashMapRemove(mapsSize);
+            mapsCalculation(mapsSize);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -62,25 +44,98 @@ public class CalculationService extends Service {
         return null;
     }
 
+    private void collectionCalculate(Integer collectionSize) {
+        arrayListAddInTheBeginning(collectionSize);
+        linkInListAddInTheBeginning(collectionSize);
+        copyOnWriteAddInTheBeginning(collectionSize);
+        arrayListAddInTheMiddle(collectionSize);
+        linkInListAddInTheMiddle(collectionSize);
+        copyOnWriteAddInTheMiddle(collectionSize);
+        arrayListAddInTheEnd(collectionSize);
+        linkInListAddInTheEnd(collectionSize);
+        copyOnWriteAddInTheEnd(collectionSize);
+        arrayListSearchBy(collectionSize);
+        linkInListSearByValue(collectionSize);
+        copyOnWriteSearchByValue(collectionSize);
+        arrayListRemoveInTheBeginning(collectionSize);
+        linkInListRemoveInTheBeginning(collectionSize);
+        copyOnWriteRemovingInTheBeginning(collectionSize);
+        arrayListRemoveInTheMiddle(collectionSize);
+        linkInListRemoveInTheMiddle(collectionSize);
+        copyOnWriteRemovingInTheMiddle(collectionSize);
+        arrayListRemoveInTheEnd(collectionSize);
+        linkInListRemoveInTheEnd(collectionSize);
+        copyOnWriteRemovingInTheEnd(collectionSize);
+    }
+
+    private void mapsCalculation(Integer mapsSize) {
+        treeMapAddingNew(mapsSize);
+        hashMapAddingNew(mapsSize);
+        treeMapSearchByKey(mapsSize);
+        hashMapSearchByKey(mapsSize);
+        treeMapRemove(mapsSize);
+        hashMapRemove(mapsSize);
+    }
+
+    private ArrayList<Integer> createArrayList(Integer collectionSize) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int y = 0; y < collectionSize; y++) {
+            list.add(y);
+        }
+        return list;
+    }
+
+    private LinkedList<Integer> createLinkedList(Integer collectionSize) {
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < collectionSize; i++) {
+            list.add(i);
+        }
+        return list;
+    }
+
+    private CopyOnWriteArrayList<Integer> createCopyOnWrite(Integer collectionSize) {
+        CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>();
+        for (int i = 0; i < collectionSize; i++) {
+            list.add(i);
+        }
+        return list;
+    }
+
+    private TreeMap<Integer, Integer> createTreeMap(Integer mapsSize) {
+        TreeMap<Integer, Integer> list = new TreeMap();
+        for (int i = 0, y = 0; i < mapsSize; i++, y++) {
+            list.put(y, i);
+        }
+        return list;
+    }
+
+    private HashMap<Integer, Integer> createHashMap(Integer mapsSize) {
+        HashMap<Integer, Integer> list = new HashMap();
+        for (int i = 0, y = 0; i < mapsSize; i++, y++) {
+            list.put(y, i);
+        }
+        return list;
+    }
+
+    private Integer timeResult(long endTime, long startTime) {
+        long timeElapsed = endTime - startTime;
+        return (int) timeElapsed;
+    }
 
     private void arrayListAddInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<Integer>();
-            for (int y = 0; y < collectionSize; y++) {
-                size.add(y);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(0, 500000);
+            list.add(0, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 100);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 100);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
 
@@ -89,22 +144,18 @@ public class CalculationService extends Service {
 
     private void arrayListAddInTheMiddle(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<>();
-            for (int y = 0; y < collectionSize; y++) {
-                size.add(y);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(size.size() / 2, 500000);
+            list.add(list.size() / 2, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 103);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 103);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
 
@@ -112,573 +163,473 @@ public class CalculationService extends Service {
 
     private void arrayListAddInTheEnd(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<>();
-            for (int y = 0; y < collectionSize; y++) {
-                size.add(y);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(500000);
+            list.add(500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 106);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 106);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void arrayListSearchBy(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             for (int y = 0; y < collectionSize; y++) {
-                if (size.get(y) == 500000) {
-                    Integer result = size.get(y);
+                if (list.get(y) == 500000) {
+                    Integer result = list.get(y);
                 }
             }
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 109);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 109);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void arrayListRemoveInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(0);
+            list.remove(0);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 112);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 112);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void arrayListRemoveInTheMiddle(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(size.size() / 2);
+            list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 115);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 115);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void arrayListRemoveInTheEnd(Integer collectionSize) {
         Single.fromCallable(() -> {
-            ArrayList<Integer> size = new ArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(size.size() - 1);
+            list.remove(list.size() - 1);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 118);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 118);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListAddInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.addFirst(500000);
+            list.addFirst(500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 101);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 101);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListAddInTheMiddle(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(size.size() / 2, 500000);
+            list.add(list.size() / 2, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 104);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 104);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListAddInTheEnd(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.addLast(500000);
+            list.addLast(500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 107);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 107);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListSearByValue(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             Integer value = 500000;
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
             long startTime = System.currentTimeMillis();
             for (int y = 0; y < collectionSize; y++) {
-                if (value.equals(size.get(y))) {
-                    Integer result = size.get(y);
+                if (value.equals(list.get(y))) {
+                    Integer result = list.get(y);
                 }
             }
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 110);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 110);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListRemoveInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.removeFirst();
+            list.removeFirst();
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 113);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 113);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListRemoveInTheMiddle(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(size.size() / 2);
+            list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 116);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 116);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void linkInListRemoveInTheEnd(Integer collectionSize) {
         Single.fromCallable(() -> {
-            LinkedList<Integer> size = new LinkedList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.removeLast();
+            list.removeLast();
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 119);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 119);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteAddInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(0, 500000);
+            list.add(0, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 102);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 102);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteAddInTheMiddle(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(size.size() / 2, 500000);
+            list.add(list.size() / 2, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 105);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 105);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteAddInTheEnd(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.add(500000);
+            list.add(500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 108);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 108);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteSearchByValue(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             Integer value = 500000;
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
             long startTime = System.currentTimeMillis();
             for (int y = 0; y < collectionSize; y++) {
-                if (value.equals(size.get(y))) {
-                    Integer result = size.get(y);
+                if (value.equals(list.get(y))) {
+                    Integer result = list.get(y);
                 }
             }
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 111);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 111);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteRemovingInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(0);
+            list.remove(0);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 114);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 114);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteRemovingInTheMiddle(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(size.size() / 2);
+            list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 117);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 117);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     private void copyOnWriteRemovingInTheEnd(Integer collectionSize) {
         Single.fromCallable(() -> {
-            CopyOnWriteArrayList<Integer> size = new CopyOnWriteArrayList<>();
-            for (int i = 0; i < collectionSize; i++) {
-                size.add(i);
-            }
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            size.remove(size.size() - 1);
+            list.remove(list.size() - 1);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("result", integer);
-                    intent.putExtra("id", 120);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(collectionResult, integer);
+                    intent.putExtra(collectionId, 120);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     public void treeMapAddingNew(Integer mapsSize) {
         Single.fromCallable(() -> {
-            TreeMap<Integer, Integer> size = new TreeMap();
-            for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-                size.put(y, i);
-            }
+            TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            size.put(size.size() + 1, 500000);
+            map.put(map.size() + 1, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("resultMaps", integer);
-                    intent.putExtra("idMaps", 121);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(mapResult, integer);
+                    intent.putExtra(mapId, 121);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     public void treeMapSearchByKey(Integer mapsSize) {
         Single.fromCallable(() -> {
-            TreeMap<Integer, Integer> size = new TreeMap<>();
-            for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-                size.put(y, i);
-            }
+            TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
             long startTime = System.currentTimeMillis();
             for (int z = 0; z < mapsSize; z++) {
-                if (size.get(z) == 500) {
-                    Integer result = size.get(z);
+                if (map.get(z) == 500) {
+                    Integer result = map.get(z);
                 }
             }
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("resultMaps", integer);
-                    intent.putExtra("idMaps", 123);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(mapResult, integer);
+                    intent.putExtra(mapId, 123);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     public void treeMapRemove(Integer mapsSize) {
         Single.fromCallable(() -> {
-            TreeMap<Integer, Integer> size = new TreeMap<>();
-            for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-                size.put(y, i);
-            }
+            TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            size.remove(100);
+            map.remove(100);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("resultMaps", integer);
-                    intent.putExtra("idMaps", 125);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(mapResult, integer);
+                    intent.putExtra(mapId, 125);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     public void hashMapAddingNew(Integer mapsSize) {
         Single.fromCallable(() -> {
-            HashMap<Integer, Integer> size = new HashMap();
-            for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-                size.put(y, i);
-            }
+            HashMap<Integer, Integer> map = createHashMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            size.put(size.size() + 1, 500000);
+            map.put(map.size() + 1, 500000);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("resultMaps", integer);
-                    intent.putExtra("idMaps", 122);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(mapResult, integer);
+                    intent.putExtra(mapId, 122);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     public void hashMapSearchByKey(Integer mapsSize) {
         Single.fromCallable(() -> {
-            HashMap<Integer, Integer> size = new HashMap<>();
+            HashMap<Integer, Integer> map = createHashMap(mapsSize);
             Integer key = 500;
-            for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-                size.put(y, i);
-            }
             long startTime = System.currentTimeMillis();
             for (int z = 0; z < mapsSize; z++) {
-                if (key.equals(size.get(z))) {
-                    Integer result = size.get(z);
+                if (key.equals(map.get(z))) {
+                    Integer result = map.get(z);
                 }
             }
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("resultMaps", integer);
-                    intent.putExtra("idMaps", 124);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(mapResult, integer);
+                    intent.putExtra(mapId, 124);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }
 
     public void hashMapRemove(Integer mapsSize) {
         Single.fromCallable(() -> {
-            HashMap<Integer, Integer> size = new HashMap<>();
-            for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-                size.put(y, i);
-            }
+            HashMap<Integer, Integer> map = createHashMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            size.remove(100);
+            map.remove(100);
             long endTime = System.currentTimeMillis();
-            long timeElapsed = endTime - startTime;
-            return (int) timeElapsed;
+            return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent("CollectionCalculate");
-                    intent.putExtra("resultMaps", integer);
-                    intent.putExtra("idMaps", 126);
+                    Intent intent = new Intent(action);
+                    intent.putExtra(mapResult, integer);
+                    intent.putExtra(mapId, 126);
                     LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                 });
     }

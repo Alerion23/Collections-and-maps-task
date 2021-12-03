@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.wenger.collectionsandmaps.MainActivity;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentMapsBinding;
 
@@ -53,8 +52,8 @@ public class MapsFragment extends Fragment {
         binding.calculateMaps.setOnClickListener(v -> {
             String editText = binding.typeMapSize.getText().toString();
             if (!(editText.isEmpty())) {
-                CalculMapsFragment fragment =
-                        CalculMapsFragment.newInstance(Integer.parseInt(editText));
+                CalculationMapsFragment fragment =
+                        CalculationMapsFragment.newInstance(Integer.parseInt(editText));
                 getChildFragmentManager().beginTransaction()
                         .replace(R.id.inner_maps_fragment_container, fragment, null)
                         .addToBackStack(null)

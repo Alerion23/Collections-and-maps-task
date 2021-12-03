@@ -18,9 +18,9 @@
 
     <Button
         android:id="@+id/clear_map"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginBottom="@dimen/button_margin_bottom"
         android:background="@drawable/btn_background"
         android:text="@string/clear"
         app:layout_constraintBottom_toBottomOf="parent"

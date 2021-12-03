@@ -1,26 +1,13 @@
 package com.wenger.collectionsandmaps;
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import android.view.View;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.wenger.collectionsandmaps.databinding.ActivityMainBinding;
-
-import java.util.Arrays;
-import java.util.List;
-
-import fragments.CalculCollectionsFragment;
-import fragments.CalculMapsFragment;
-import fragments.CollectionsFragment;
-import fragments.MapsFragment;
 
 public class MainActivity extends FragmentActivity {
 
@@ -39,16 +26,15 @@ public class MainActivity extends FragmentActivity {
                 (tab, position) -> {
                     switch (position) {
                         case 0: {
-                            tab.setText("Collections");
+                            tab.setText(R.string.Collections);
                             break;
                         }
                         case 1: {
-                            tab.setText("Maps");
+                            tab.setText(R.string.Maps);
                             break;
                         }
                     }
                 }
         ).attach();
     }
-
 }
