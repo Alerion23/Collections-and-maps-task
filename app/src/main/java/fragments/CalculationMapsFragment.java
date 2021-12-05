@@ -27,9 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CalculationMapsFragment extends Fragment {
-    public CalculationMapsFragment() {
-        super(R.layout.fragment_calc_maps);
-    }
 
     private FragmentCalcMapsBinding binding;
     private MapsAdapter adapter;
@@ -37,7 +34,12 @@ public class CalculationMapsFragment extends Fragment {
     private List<BaseItem> defaultItems;
     private String treeMap;
     private String hashMap;
+    private String key = "mapSize";
 
+
+    public CalculationMapsFragment() {
+        super(R.layout.fragment_calc_maps);
+    }
 
     @Nullable
     @Override
@@ -50,9 +52,9 @@ public class CalculationMapsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         createDefaultList();
-        int mapSize = getArguments() != null ? getArguments().getInt("mapsSize") : 0;
+        int mapSize = getArguments() != null ? getArguments().getInt(key) : 0;
         Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra("mapSize", mapSize);
+        service.putExtra(key, mapSize);
         getContext().startService(service);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -98,11 +100,11 @@ public class CalculationMapsFragment extends Fragment {
                 for (int y = 0; y < defaultItems.size(); y++) {
                     BaseItem item = defaultItems.get(y);
                     if (item instanceof ResultItem && ((ResultItem) item).getId() == idMaps) {
-                        defaultItems.set(y, new ResultItem(resultMaps,
-                                ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
+                        ResultItem resultItem = new ResultItem(resultMaps,
+                                ((ResultItem) item).getTitle(), ((ResultItem) item).getId());
+                        onMapsItemsReceived(resultItem);
                     }
                 }
-                onMapsItemsReceived(defaultItems);
             }
         };
         LocalBroadcastManager.getInstance(getContext())
@@ -115,14 +117,14 @@ public class CalculationMapsFragment extends Fragment {
         });
     }
 
-    public void onMapsItemsReceived(List<BaseItem> itemList) {
-        adapter.setMapsItems(itemList);
+    public void onMapsItemsReceived(ResultItem resultItem) {
+        adapter.setMapsItems(resultItem);
     }
 
     public static CalculationMapsFragment newInstance(Integer mapSize) {
         CalculationMapsFragment fragment = new CalculationMapsFragment();
         Bundle args = new Bundle();
-        args.putInt("mapsSize", mapSize);
+        args.putInt(fragment.key, mapSize);
         fragment.setArguments(args);
         return fragment;
     }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+
 import fragments.CollectionsFragment;
 import fragments.MapsFragment;
 
@@ -18,11 +19,11 @@ public class PagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new CollectionsFragment();
+                return CollectionsFragment.newInstance();
             case 1:
-                return new MapsFragment();
+                return MapsFragment.newInstance();
             default:
-                return new CollectionsFragment();
+                return CollectionsFragment.newInstance();
         }
     }
 

@@ -12,10 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.wenger.collectionsandmaps.BaseFragment;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentCollectionsBinding;
 
-public class CollectionsFragment extends Fragment {
+public class CollectionsFragment extends BaseFragment {
     public CollectionsFragment() {
         super(R.layout.fragment_collections);
     }
@@ -34,20 +35,6 @@ public class CollectionsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onCalculateCLickListener();
-        setupBackPress();
-    }
-
-    private void setupBackPress() {
-        if (getActivity() != null) {
-            getActivity().getOnBackPressedDispatcher().addCallback(
-                    new OnBackPressedCallback(true) {
-                        @Override
-                        public void handleOnBackPressed() {
-                            getChildFragmentManager().popBackStack();
-                        }
-                    }
-            );
-        }
     }
 
     private void onCalculateCLickListener() {
@@ -56,13 +43,16 @@ public class CollectionsFragment extends Fragment {
             if (!(editText.isEmpty())) {
                 CalculationCollectionsFragment fragment =
                         CalculationCollectionsFragment.newInstance(Integer.parseInt(editText));
-//                CalculationCollectionsFragment fragment =
-//                        CalculationCollectionsFragment.newInstance(Integer.parseInt(editText));
                 getChildFragmentManager().beginTransaction()
                         .replace(R.id.inner_collection_fragment_container, fragment, null)
                         .addToBackStack(null)
                         .commit();
             }
         });
+    }
+
+    public static CollectionsFragment newInstance() {
+        CollectionsFragment fragment = new CollectionsFragment();
+        return fragment;
     }
 }

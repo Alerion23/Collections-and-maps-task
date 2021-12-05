@@ -37,6 +37,7 @@ public class CalculationCollectionsFragment extends Fragment {
     private String arrayList;
     private String linkedList;
     private String copyOnWrite;
+    private String key = "collectionSize";
 
 
     public CalculationCollectionsFragment() {
@@ -54,9 +55,9 @@ public class CalculationCollectionsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         createDefaultList();
-        int collectionSize = getArguments() != null ? getArguments().getInt("collectionSize") : 0;
+        int collectionSize = getArguments() != null ? getArguments().getInt(key) : 0;
         Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra("collectionSize", collectionSize);
+        service.putExtra(key, collectionSize);
         getContext().startService(service);
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -122,12 +123,11 @@ public class CalculationCollectionsFragment extends Fragment {
                 for (int i = 0; i < defaultItems.size(); i++) {
                     BaseItem item = defaultItems.get(i);
                     if (item instanceof ResultItem && ((ResultItem) item).getId() == idCollection) {
-                        defaultItems.set(i, new ResultItem(resultCollection,
-                                ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
-
+                        ResultItem resultItem = new ResultItem(resultCollection,
+                                ((ResultItem) item).getTitle(), ((ResultItem) item).getId());
+                        onCollectionItemsReceived(resultItem);
                     }
                 }
-                onCollectionItemsReceived(defaultItems);
             }
         };
         LocalBroadcastManager.getInstance(getContext())
@@ -140,14 +140,14 @@ public class CalculationCollectionsFragment extends Fragment {
         });
     }
 
-    public void onCollectionItemsReceived(List<BaseItem> resultItems) {
-        adapter.setCollectionItems(resultItems);
+    public void onCollectionItemsReceived(ResultItem resultItem) {
+        adapter.setCollectionItems(resultItem);
     }
 
     public static CalculationCollectionsFragment newInstance(Integer collectionSize) {
         CalculationCollectionsFragment fragment = new CalculationCollectionsFragment();
         Bundle args = new Bundle();
-        args.putInt("collectionSize", collectionSize);
+        args.putInt(fragment.key, collectionSize);
         fragment.setArguments(args);
         return fragment;
 

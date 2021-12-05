@@ -29,17 +29,13 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setCollectionItems(List<BaseItem> baseItems) {
-        for (int i = 0; i < baseItems.size(); i++) {
-            BaseItem defaultItem = itemList.get(i);
-            BaseItem newItem = baseItems.get(i);
-            if (defaultItem instanceof ResultItem && newItem instanceof ResultItem &&
-                    ((ResultItem) defaultItem).getId().equals(((ResultItem) newItem).getId())) {
-                if (((ResultItem) defaultItem).getResult() != ((ResultItem) newItem).getResult()) {
-                    itemList.set(i, new ResultItem(((ResultItem) newItem).getResult(),
-                            ((ResultItem) defaultItem).getTitle(), ((ResultItem) defaultItem).getId()));
-                    notifyItemChanged(i);
-                }
+    public void setCollectionItems(ResultItem newItem) {
+        for (int i = 0; i < itemList.size(); i++) {
+            BaseItem item = itemList.get(i);
+            if (item instanceof ResultItem && newItem.getId() == ((ResultItem)item).getId()) {
+                itemList.set(i, new ResultItem(newItem.getResult(),
+                        ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
+                notifyItemChanged(i);
             }
         }
     }

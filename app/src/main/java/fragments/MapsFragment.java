@@ -10,11 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.wenger.collectionsandmaps.BaseFragment;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentMapsBinding;
 
+import java.nio.MappedByteBuffer;
 
-public class MapsFragment extends Fragment {
+
+public class MapsFragment extends BaseFragment {
     public MapsFragment() {
         super(R.layout.fragment_maps);
     }
@@ -32,20 +35,6 @@ public class MapsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onCalcMapClickListener();
-        setupBackPress();
-    }
-
-    private void setupBackPress() {
-        if (getActivity() != null) {
-            getActivity().getOnBackPressedDispatcher().addCallback(
-                    new OnBackPressedCallback(true) {
-                        @Override
-                        public void handleOnBackPressed() {
-                            getChildFragmentManager().popBackStack();
-                        }
-                    }
-            );
-        }
     }
 
     private void onCalcMapClickListener() {
@@ -60,5 +49,10 @@ public class MapsFragment extends Fragment {
                         .commit();
             }
         });
+    }
+
+    public static MapsFragment newInstance() {
+        MapsFragment fragment = new MapsFragment();
+        return fragment;
     }
 }

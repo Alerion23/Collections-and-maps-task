@@ -21,7 +21,7 @@ public class MainActivity extends FragmentActivity {
         View view = binding.getRoot();
         setContentView(view);
         pagerAdapter = new PagerAdapter(this);
-        binding.viewPager2.setAdapter(new PagerAdapter(this));
+        binding.viewPager2.setAdapter(pagerAdapter);
         new TabLayoutMediator(binding.tabLayout, binding.viewPager2,
                 (tab, position) -> {
                     switch (position) {
