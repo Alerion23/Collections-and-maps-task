@@ -1,3 +1,31 @@
 <resources>
     <string name="app_name">Collections and Maps</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="collections">Collections</string>
+    <string name="maps">Maps</string>
+    <string name="Please_enter_collection">Please enter collection size and number of elements to compare</string>
+    <string name="collection_size">Collection size</string>
+    <string name="calculate">Calculate</string>
+    <string name="map_size">Map size</string>
+    <string name="please_enter_map_size">Please enter map size and number of elements to compare</string>
+    <string name="clear">Clear</string>
+    <string name="title">TITLE</string>
+    <string name="Collections">Collections</string>
+    <string name="Maps">Maps</string>
+    <string name="adding_new_map">Adding new</string>
+    <string name="treeMap">TreeMap</string>
+    <string name="hashMap">HashMap</string>
+    <string name="search_by_key_map">Search by key</string>
+    <string name="removing_map">Removing</string>
+    <string name="arrayList">ArrayList</string>
+    <string name="linkedList">LinkedList</string>
+    <string name="copyOnWrite">CopyOnWrite</string>
+    <string name="add_in_the_beginning_collection">Adding in the beginning</string>
+    <string name="add_in_the_middle_collection">Adding in the middle</string>
+    <string name="add_in_the_end_collection">Adding in the end</string>
+    <string name="search_by_value_collection">Search by value</string>
+    <string name="remove_in_the_beginning_collection">Removing in the beginning</string>
+    <string name="remove_in_the_middle_collection">Removing in the middle</string>
+    <string name="remove_in_the_end_collection">Removing in the end</string>
 </resources>
