@@ -5,16 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.wenger.collectionsandmaps.BaseFragment;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentMapsBinding;
 
-import java.nio.MappedByteBuffer;
+import MapsCalculation.CalculationMapsFragment;
 
 
 public class MapsFragment extends BaseFragment {

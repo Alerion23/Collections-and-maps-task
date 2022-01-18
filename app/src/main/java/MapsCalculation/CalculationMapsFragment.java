@@ -1,4 +1,4 @@
-package fragments;
+package MapsCalculation;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,26 +15,25 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CalculationService;
-import com.wenger.collectionsandmaps.HeaderItem;
-import com.wenger.collectionsandmaps.MapsAdapter;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 import com.wenger.collectionsandmaps.databinding.FragmentCalcMapsBinding;
 
-import java.util.Arrays;
-import java.util.List;
+import javax.inject.Inject;
 
-public class CalculationMapsFragment extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+
+public class CalculationMapsFragment extends DaggerFragment implements IMapsView {
 
     private FragmentCalcMapsBinding binding;
     private MapsAdapter adapter;
     private BroadcastReceiver br;
-    private List<BaseItem> defaultItems;
-    private String treeMap;
-    private String hashMap;
     private String key = "mapSize";
+
+    @Inject
+    MapsCalculationPresenter mapsPresenter;
 
 
     public CalculationMapsFragment() {
@@ -51,7 +50,6 @@ public class CalculationMapsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        createDefaultList();
         int mapSize = getArguments() != null ? getArguments().getInt(key) : 0;
         Intent service = new Intent(getActivity(), CalculationService.class);
         service.putExtra(key, mapSize);
@@ -64,25 +62,10 @@ public class CalculationMapsFragment extends Fragment {
             }
         });
         binding.mapRecycler.setLayoutManager(layoutManager);
-        adapter = new MapsAdapter(defaultItems);
+        adapter = new MapsAdapter(mapsPresenter.createDefaultList());
         binding.mapRecycler.setAdapter(adapter);
         registerReceiver();
         onClearClickListener();
-    }
-
-    private List<BaseItem> createDefaultList() {
-        String treeMap = getString(R.string.treeMap);
-        String hashMap = getString(R.string.hashMap);
-        defaultItems = Arrays.asList(new HeaderItem(getString(R.string.adding_new_map)),
-                new ResultItem(-1, treeMap, 121),
-                new ResultItem(-1, hashMap, 122),
-                new HeaderItem(getString(R.string.search_by_key_map)),
-                new ResultItem(-1, treeMap, 123),
-                new ResultItem(-1, hashMap, 124),
-                new HeaderItem(getString(R.string.removing_map)),
-                new ResultItem(-1, treeMap, 125),
-                new ResultItem(-1, hashMap, 126));
-        return defaultItems;
     }
 
     @Override
@@ -97,14 +80,7 @@ public class CalculationMapsFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 int resultMaps = intent.getExtras().getInt("resultMaps");
                 int idMaps = intent.getExtras().getInt("idMaps");
-                for (int y = 0; y < defaultItems.size(); y++) {
-                    BaseItem item = defaultItems.get(y);
-                    if (item instanceof ResultItem && ((ResultItem) item).getId() == idMaps) {
-                        ResultItem resultItem = new ResultItem(resultMaps,
-                                ((ResultItem) item).getTitle(), ((ResultItem) item).getId());
-                        onMapsItemsReceived(resultItem);
-                    }
-                }
+                mapsPresenter.getDataFromReceiver(resultMaps, idMaps);
             }
         };
         LocalBroadcastManager.getInstance(getContext())
@@ -117,6 +93,7 @@ public class CalculationMapsFragment extends Fragment {
         });
     }
 
+    @Override
     public void onMapsItemsReceived(ResultItem resultItem) {
         adapter.setMapsItems(resultItem);
     }

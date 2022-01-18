@@ -1,6 +1,8 @@
-package com.wenger.collectionsandmaps;
+package CollectionCalculation;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,29 +12,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.wenger.collectionsandmaps.BaseItem;
+import com.wenger.collectionsandmaps.HeaderItem;
+import com.wenger.collectionsandmaps.R;
+import com.wenger.collectionsandmaps.ResultItem;
+
 import java.util.List;
 
-public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+
+public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<BaseItem> itemList;
     public static final int VIEW_TYPE_HEADER = 0;
     public static final int VIEW_TYPE_ITEM = 1;
+    private String headerOfItem = "header";
 
-    public MapsAdapter(List<BaseItem> itemList) {
+    public CollectionAdapter(List<BaseItem> itemList) {
         this.itemList = itemList;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setMapsItems(ResultItem newItem) {
+    public void setCollectionItems(ResultItem newItem) {
         for (int i = 0; i < itemList.size(); i++) {
             BaseItem item = itemList.get(i);
-            if (item instanceof ResultItem && newItem.getId() == ((ResultItem) item).getId()) {
+            if (item instanceof ResultItem && newItem.getId() == ((ResultItem)item).getId()) {
                 itemList.set(i, new ResultItem(newItem.getResult(),
                         ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
                 notifyItemChanged(i);
             }
         }
     }
-
 
     @NonNull
     @Override
@@ -42,20 +53,19 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new ItemViewHolder(view.getRootView());
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item_collections, parent, false);
-            return new HeaderViewHolder(view);
+            return new HeaderViewHolder(view.getRootView());
         }
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (itemList.get(position).getType() == "header") {
+        if (itemList.get(position).getType() == headerOfItem) {
             HeaderViewHolder h = (HeaderViewHolder) holder;
-            HeaderItem header = (HeaderItem) itemList.get(position);
+            HeaderItem header = ((HeaderItem) itemList.get(position));
             h.header.setText(header.getHeader());
         } else {
             ItemViewHolder h = (ItemViewHolder) holder;
-            ResultItem item = (ResultItem) itemList.get(position);
+            ResultItem item = ((ResultItem) itemList.get(position));
             h.title.setText(item.getTitle());
             if (item.getResult() >= 0) {
                 h.result.setText(item.getResult().toString());
@@ -71,7 +81,7 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (itemList.get(position).getType() == "header") {
+        if (itemList.get(position).getType() == headerOfItem) {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;
@@ -79,6 +89,7 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
+
         TextView title;
         TextView result;
         ProgressBar loading;
@@ -92,6 +103,7 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
+
         TextView header;
 
         public HeaderViewHolder(@NonNull View itemView) {
@@ -99,5 +111,4 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             header = itemView.findViewById(R.id.textViewHeader);
         }
     }
-
 }
