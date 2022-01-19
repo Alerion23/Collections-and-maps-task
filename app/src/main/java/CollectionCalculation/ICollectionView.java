@@ -4,6 +4,6 @@ import com.wenger.collectionsandmaps.ResultItem;
 
 public interface ICollectionView {
 
-    void onCollectionItemsReceived(ResultItem resultItem);
+    void onCollectionItemReceived(ResultItem resultItem);
 
 }

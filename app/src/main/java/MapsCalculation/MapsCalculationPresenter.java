@@ -16,31 +16,34 @@ import di.AppContext;
 
 public class MapsCalculationPresenter implements IMapsPresenter {
 
-    Context context;
-    CalculationMapsFragment mapsView;
-    List<BaseItem> defaultItems;
-    private String treeMap;
-    private String hashMap;
+    private CalculationMapsFragment mapsView;
+    private List<BaseItem> defaultItems;
+    private int mapsId121 = 121;
+    private int mapsId122 = 122;
+    private int mapsId123 = 123;
+    private int mapsId124 = 124;
+    private int mapsId125 = 125;
+    private int mapsId126 = 126;
 
     @Inject
-    public MapsCalculationPresenter(@AppContext Context context, CalculationMapsFragment mapsView) {
-        this.context = context;
+    public MapsCalculationPresenter(CalculationMapsFragment mapsView) {
         this.mapsView = mapsView;
     }
 
     @Override
-    public List<BaseItem> createDefaultList() {
-        treeMap = context.getString(R.string.treeMap);
-        hashMap = context.getString(R.string.hashMap);
-        defaultItems = Arrays.asList(new HeaderItem(context.getString(R.string.adding_new_map)),
-                new ResultItem(-1, treeMap, 121),
-                new ResultItem(-1, hashMap, 122),
-                new HeaderItem(context.getString(R.string.search_by_key_map)),
-                new ResultItem(-1, treeMap, 123),
-                new ResultItem(-1, hashMap, 124),
-                new HeaderItem(context.getString(R.string.removing_map)),
-                new ResultItem(-1, treeMap, 125),
-                new ResultItem(-1, hashMap, 126));
+    public List<BaseItem> createDefaultList(String treeMap, String hashMap, String addingNew,
+                                            String searchByKey, String removing) {
+
+        defaultItems = Arrays.asList(
+                new HeaderItem(addingNew),
+                new ResultItem(-1, treeMap, mapsId121),
+                new ResultItem(-1, hashMap, mapsId122),
+                new HeaderItem(searchByKey),
+                new ResultItem(-1, treeMap, mapsId123),
+                new ResultItem(-1, hashMap, mapsId124),
+                new HeaderItem(removing),
+                new ResultItem(-1, treeMap, mapsId125),
+                new ResultItem(-1, hashMap, mapsId126));
         return defaultItems;
     }
 
@@ -51,7 +54,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
             if (item instanceof ResultItem && ((ResultItem) item).getId() == idMaps) {
                 ResultItem resultItem = new ResultItem(resultMaps,
                         ((ResultItem) item).getTitle(), ((ResultItem) item).getId());
-                mapsView.onMapsItemsReceived(resultItem);
+                mapsView.onMapsItemReceived(resultItem);
             }
         }
     }

@@ -27,7 +27,7 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setMapsItems(ResultItem newItem) {
+    public void setMapsItem(ResultItem newItem) {
         for (int i = 0; i < itemList.size(); i++) {
             BaseItem item = itemList.get(i);
             if (item instanceof ResultItem && newItem.getId() == ((ResultItem) item).getId()) {

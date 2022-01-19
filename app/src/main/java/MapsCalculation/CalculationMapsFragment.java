@@ -15,10 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CalculationService;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 import com.wenger.collectionsandmaps.databinding.FragmentCalcMapsBinding;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -51,6 +54,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int mapSize = getArguments() != null ? getArguments().getInt(key) : 0;
+        adapter = new MapsAdapter(createNamesForDefaultList());
         Intent service = new Intent(getActivity(), CalculationService.class);
         service.putExtra(key, mapSize);
         getContext().startService(service);
@@ -62,7 +66,6 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
             }
         });
         binding.mapRecycler.setLayoutManager(layoutManager);
-        adapter = new MapsAdapter(mapsPresenter.createDefaultList());
         binding.mapRecycler.setAdapter(adapter);
         registerReceiver();
         onClearClickListener();
@@ -72,6 +75,15 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(br);
+    }
+
+    private List<BaseItem> createNamesForDefaultList() {
+        String treeMap = getString(R.string.treeMap);
+        String hashMap = getString(R.string.hashMap);
+        String addingNew = getString(R.string.adding_new_map);
+        String searchByKey = getString(R.string.search_by_key_map);
+        String removing = getString(R.string.removing_map);
+        return mapsPresenter.createDefaultList(treeMap, hashMap, addingNew, searchByKey, removing);
     }
 
     private void registerReceiver() {
@@ -94,8 +106,8 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     }
 
     @Override
-    public void onMapsItemsReceived(ResultItem resultItem) {
-        adapter.setMapsItems(resultItem);
+    public void onMapsItemReceived(ResultItem resultItem) {
+        adapter.setMapsItem(resultItem);
     }
 
     public static CalculationMapsFragment newInstance(Integer mapSize) {

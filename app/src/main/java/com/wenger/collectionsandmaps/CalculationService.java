@@ -24,11 +24,14 @@ public class CalculationService extends Service {
     private String mapResult = "resultMaps";
     private String mapId = "idMaps";
     private String action = "CollectionCalculate";
+    private String collectionKey = "collectionSize";
+    private String mapsKey = "mapSize";
+    private int value = 500000;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        int collectionSize = intent.getExtras().getInt("collectionSize");
-        int mapsSize = intent.getExtras().getInt("mapSize");
+        int collectionSize = intent.getExtras().getInt(collectionKey);
+        int mapsSize = intent.getExtras().getInt(mapsKey);
         if (collectionSize != 0) {
             collectionCalculate(collectionSize);
         }
@@ -122,21 +125,32 @@ public class CalculationService extends Service {
         return (int) timeElapsed;
     }
 
+    private void sendCollectionBroadcast(int integer, int id) {
+        Intent intent = new Intent(action);
+        intent.putExtra(collectionResult, integer);
+        intent.putExtra(collectionId, id);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
+
+    private void sendMapsBroadcast(int integer, int id) {
+        Intent intent = new Intent(action);
+        intent.putExtra(mapResult, integer);
+        intent.putExtra(mapId, id);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+    }
+
     private void arrayListAddInTheBeginning(Integer collectionSize) {
         Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(0, 500000);
+            list.add(0, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 100);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 100);
                 });
 
     }
@@ -146,17 +160,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(list.size() / 2, 500000);
+            list.add(list.size() / 2, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 103);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 103);
                 });
 
     }
@@ -165,17 +176,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(500000);
+            list.add(value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 106);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 106);
                 });
     }
 
@@ -184,7 +192,7 @@ public class CalculationService extends Service {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             for (int y = 0; y < collectionSize; y++) {
-                if (list.get(y) == 500000) {
+                if (list.get(y) == value) {
                     Integer result = list.get(y);
                 }
             }
@@ -194,10 +202,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 109);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 109);
                 });
     }
 
@@ -212,10 +217,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 112);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 112);
                 });
     }
 
@@ -230,10 +232,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 115);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 115);
                 });
     }
 
@@ -248,10 +247,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 118);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 118);
                 });
     }
 
@@ -259,17 +255,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.addFirst(500000);
+            list.addFirst(value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 101);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 101);
                 });
     }
 
@@ -277,17 +270,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(list.size() / 2, 500000);
+            list.add(list.size() / 2, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 104);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 104);
                 });
     }
 
@@ -295,17 +285,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.addLast(500000);
+            list.addLast(value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 107);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 107);
                 });
     }
 
@@ -325,10 +312,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 110);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 110);
                 });
     }
 
@@ -343,10 +327,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 113);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 113);
                 });
     }
 
@@ -361,10 +342,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 116);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 116);
                 });
     }
 
@@ -379,10 +357,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 119);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 119);
                 });
     }
 
@@ -390,17 +365,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(0, 500000);
+            list.add(0, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 102);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 102);
                 });
     }
 
@@ -408,17 +380,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(list.size() / 2, 500000);
+            list.add(list.size() / 2, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 105);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 105);
                 });
     }
 
@@ -426,17 +395,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(500000);
+            list.add(value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 108);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 108);
                 });
     }
 
@@ -456,10 +422,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 111);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 111);
                 });
     }
 
@@ -474,10 +437,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 114);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 114);
                 });
     }
 
@@ -492,10 +452,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 117);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 117);
                 });
     }
 
@@ -510,10 +467,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(collectionResult, integer);
-                    intent.putExtra(collectionId, 120);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendCollectionBroadcast(integer, 120);
                 });
     }
 
@@ -521,17 +475,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            map.put(map.size() + 1, 500000);
+            map.put(map.size() + 1, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(mapResult, integer);
-                    intent.putExtra(mapId, 121);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendMapsBroadcast(integer, 121);
                 });
     }
 
@@ -550,10 +501,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(mapResult, integer);
-                    intent.putExtra(mapId, 123);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendMapsBroadcast(integer, 123);
                 });
     }
 
@@ -568,10 +516,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(mapResult, integer);
-                    intent.putExtra(mapId, 125);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendMapsBroadcast(integer, 125);
                 });
     }
 
@@ -579,17 +524,14 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             HashMap<Integer, Integer> map = createHashMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            map.put(map.size() + 1, 500000);
+            map.put(map.size() + 1, value);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(mapResult, integer);
-                    intent.putExtra(mapId, 122);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendMapsBroadcast(integer, 122);
                 });
     }
 
@@ -609,10 +551,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(mapResult, integer);
-                    intent.putExtra(mapId, 124);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendMapsBroadcast(integer, 124);
                 });
     }
 
@@ -627,10 +566,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    Intent intent = new Intent(action);
-                    intent.putExtra(mapResult, integer);
-                    intent.putExtra(mapId, 126);
-                    LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+                    sendMapsBroadcast(integer, 126);
                 });
     }
 }

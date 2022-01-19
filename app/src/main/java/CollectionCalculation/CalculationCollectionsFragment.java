@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CalculationService;
 
 import app.MyApplication;
@@ -27,6 +28,8 @@ import di.DaggerAppComponent;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 import com.wenger.collectionsandmaps.databinding.FragmentCalcCollectionsBinding;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -61,7 +64,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int collectionSize = getArguments() != null ? getArguments().getInt(key) : 0;
-        adapter = new CollectionAdapter(collectionPresenter.createDefaultList());
+        adapter = new CollectionAdapter(createNamesForDefaultList());
         Intent service = new Intent(getActivity(), CalculationService.class);
         service.putExtra(key, collectionSize);
         getContext().startService(service);
@@ -82,6 +85,23 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(br);
+    }
+
+    private List<BaseItem> createNamesForDefaultList() {
+       String arrayList = getString(R.string.arrayList);
+       String linkedList = getString(R.string.linkedList);
+       String copyOnWrite = getString(R.string.copyOnWrite);
+       String addITheBeginningCollection = getString(R.string.add_in_the_beginning_collection);
+       String addInTheMiddleCollection = getString(R.string.add_in_the_middle_collection);
+       String addInTheEndCollection = getString(R.string.add_in_the_end_collection);
+       String searchByValueCollection = getString(R.string.search_by_value_collection);
+       String removeInTheBeginningCollection = getString(R.string.remove_in_the_beginning_collection);
+       String removeInTheMiddleCollection = getString(R.string.remove_in_the_middle_collection);
+       String removeInTheEndCollection = getString(R.string.remove_in_the_end_collection);
+        return collectionPresenter.createDefaultList(arrayList,linkedList,copyOnWrite,
+                addITheBeginningCollection,addInTheMiddleCollection, addInTheEndCollection,
+                searchByValueCollection,removeInTheBeginningCollection,removeInTheMiddleCollection,
+                removeInTheEndCollection);
     }
 
     private void registerReceiver() {
@@ -105,8 +125,8 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
 
 
     @Override
-    public void onCollectionItemsReceived(ResultItem resultItem) {
-        adapter.setCollectionItems(resultItem);
+    public void onCollectionItemReceived(ResultItem resultItem) {
+        adapter.setCollectionItem(resultItem);
     }
 
     public static CalculationCollectionsFragment newInstance(Integer collectionSize) {

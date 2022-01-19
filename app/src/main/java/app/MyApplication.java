@@ -8,7 +8,6 @@ import di.DaggerAppComponent;
 
 public class MyApplication extends DaggerApplication {
 
-
     @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         AppComponent appComponent = DaggerAppComponent.builder()
