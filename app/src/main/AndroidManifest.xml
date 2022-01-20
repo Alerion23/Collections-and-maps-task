@@ -3,7 +3,7 @@
     package="com.wenger.collectionsandmaps">
 
     <application
-        android:name="app.MyApplication"
+        android:name=".app.MyApplication"
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:hardwareAccelerated="false"

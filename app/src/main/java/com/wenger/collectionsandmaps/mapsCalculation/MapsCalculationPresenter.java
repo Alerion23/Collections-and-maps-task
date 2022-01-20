@@ -1,18 +1,13 @@
-package MapsCalculation;
-
-import android.content.Context;
+package com.wenger.collectionsandmaps.mapsCalculation;
 
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.HeaderItem;
-import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
 import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import di.AppContext;
 
 public class MapsCalculationPresenter implements IMapsPresenter {
 
@@ -31,19 +26,19 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     }
 
     @Override
-    public List<BaseItem> createDefaultList(String treeMap, String hashMap, String addingNew,
-                                            String searchByKey, String removing) {
+    public List<BaseItem> createDefaultList(String treeMapTitle, String hashMapTitle, String addingNewHeader,
+                                            String searchByKeyHeader, String removingHeader) {
 
         defaultItems = Arrays.asList(
-                new HeaderItem(addingNew),
-                new ResultItem(-1, treeMap, mapsId121),
-                new ResultItem(-1, hashMap, mapsId122),
-                new HeaderItem(searchByKey),
-                new ResultItem(-1, treeMap, mapsId123),
-                new ResultItem(-1, hashMap, mapsId124),
-                new HeaderItem(removing),
-                new ResultItem(-1, treeMap, mapsId125),
-                new ResultItem(-1, hashMap, mapsId126));
+                new HeaderItem(addingNewHeader),
+                new ResultItem(-1, treeMapTitle, mapsId121),
+                new ResultItem(-1, hashMapTitle, mapsId122),
+                new HeaderItem(searchByKeyHeader),
+                new ResultItem(-1, treeMapTitle, mapsId123),
+                new ResultItem(-1, hashMapTitle, mapsId124),
+                new HeaderItem(removingHeader),
+                new ResultItem(-1, treeMapTitle, mapsId125),
+                new ResultItem(-1, hashMapTitle, mapsId126));
         return defaultItems;
     }
 

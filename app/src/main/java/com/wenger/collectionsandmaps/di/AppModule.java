@@ -1,6 +1,5 @@
-package di;
+package com.wenger.collectionsandmaps.di;
 
-import android.app.Application;
 import android.content.Context;
 
 import javax.inject.Inject;

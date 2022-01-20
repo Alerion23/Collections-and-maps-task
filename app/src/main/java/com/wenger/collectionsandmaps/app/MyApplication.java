@@ -1,10 +1,10 @@
-package app;
+package com.wenger.collectionsandmaps.app;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
-import di.AppComponent;
-import di.AppModule;
-import di.DaggerAppComponent;
+import com.wenger.collectionsandmaps.di.AppComponent;
+import com.wenger.collectionsandmaps.di.AppModule;
+import com.wenger.collectionsandmaps.di.DaggerAppComponent;
 
 public class MyApplication extends DaggerApplication {
 

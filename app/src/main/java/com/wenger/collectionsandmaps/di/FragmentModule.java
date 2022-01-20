@@ -1,7 +1,7 @@
-package di;
+package com.wenger.collectionsandmaps.di;
 
-import CollectionCalculation.CalculationCollectionsFragment;
-import MapsCalculation.CalculationMapsFragment;
+import com.wenger.collectionsandmaps.collectionCalculation.CalculationCollectionsFragment;
+import com.wenger.collectionsandmaps.mapsCalculation.CalculationMapsFragment;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

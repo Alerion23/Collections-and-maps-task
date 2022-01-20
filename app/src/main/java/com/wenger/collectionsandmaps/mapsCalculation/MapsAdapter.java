@@ -1,8 +1,6 @@
-package CollectionCalculation;
+package com.wenger.collectionsandmaps.mapsCalculation;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.HeaderItem;
 import com.wenger.collectionsandmaps.R;
@@ -20,30 +17,27 @@ import com.wenger.collectionsandmaps.ResultItem;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
-
-public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<BaseItem> itemList;
     public static final int VIEW_TYPE_HEADER = 0;
     public static final int VIEW_TYPE_ITEM = 1;
-    private String headerOfItem = "header";
 
-    public CollectionAdapter(List<BaseItem> itemList) {
+    public MapsAdapter(List<BaseItem> itemList) {
         this.itemList = itemList;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void setCollectionItem(ResultItem newItem) {
+    public void updateMapsItem(ResultItem newItem) {
         for (int i = 0; i < itemList.size(); i++) {
             BaseItem item = itemList.get(i);
-            if (item instanceof ResultItem && newItem.getId() == ((ResultItem)item).getId()) {
+            if (item instanceof ResultItem && newItem.getId() == ((ResultItem) item).getId()) {
                 itemList.set(i, new ResultItem(newItem.getResult(),
                         ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
                 notifyItemChanged(i);
             }
         }
     }
+
 
     @NonNull
     @Override
@@ -53,19 +47,20 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return new ItemViewHolder(view.getRootView());
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item_collections, parent, false);
-            return new HeaderViewHolder(view.getRootView());
+            return new HeaderViewHolder(view);
         }
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (itemList.get(position).getType() == headerOfItem) {
+        if (itemList.get(position).getType() == "header") {
             HeaderViewHolder h = (HeaderViewHolder) holder;
-            HeaderItem header = ((HeaderItem) itemList.get(position));
+            HeaderItem header = (HeaderItem) itemList.get(position);
             h.header.setText(header.getHeader());
         } else {
             ItemViewHolder h = (ItemViewHolder) holder;
-            ResultItem item = ((ResultItem) itemList.get(position));
+            ResultItem item = (ResultItem) itemList.get(position);
             h.title.setText(item.getTitle());
             if (item.getResult() >= 0) {
                 h.result.setText(item.getResult().toString());
@@ -81,7 +76,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (itemList.get(position).getType() == headerOfItem) {
+        if (itemList.get(position).getType() == "header") {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;
@@ -89,7 +84,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-
         TextView title;
         TextView result;
         ProgressBar loading;
@@ -103,7 +97,6 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
-
         TextView header;
 
         public HeaderViewHolder(@NonNull View itemView) {
@@ -111,4 +104,5 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             header = itemView.findViewById(R.id.textViewHeader);
         }
     }
+
 }

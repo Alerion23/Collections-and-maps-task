@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 
-import fragments.CollectionsFragment;
-import fragments.MapsFragment;
+import com.wenger.collectionsandmaps.fragments.CollectionsFragment;
+import com.wenger.collectionsandmaps.fragments.MapsFragment;
 
 public class PagerAdapter extends FragmentStateAdapter {
     PagerAdapter(FragmentActivity activity) {

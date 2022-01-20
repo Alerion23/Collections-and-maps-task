@@ -1,16 +1,9 @@
-package di;
+package com.wenger.collectionsandmaps.di;
 
-import android.content.Context;
-
-import javax.inject.Singleton;
-
-import CollectionCalculation.CalculationCollectionsFragment;
-import CollectionCalculation.CollectionCalculationPresenter;
-import CollectionCalculation.ICollectionPresenter;
-import MapsCalculation.MapsCalculationPresenter;
+import com.wenger.collectionsandmaps.collectionCalculation.CollectionCalculationPresenter;
+import com.wenger.collectionsandmaps.mapsCalculation.MapsCalculationPresenter;
 import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 import dagger.multibindings.IntoMap;
 
 @Module

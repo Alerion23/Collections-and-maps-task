@@ -1,4 +1,4 @@
-package MapsCalculation;
+package com.wenger.collectionsandmaps.mapsCalculation;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -38,7 +37,6 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     @Inject
     MapsCalculationPresenter mapsPresenter;
 
-
     public CalculationMapsFragment() {
         super(R.layout.fragment_calc_maps);
     }
@@ -55,9 +53,19 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
         super.onViewCreated(view, savedInstanceState);
         int mapSize = getArguments() != null ? getArguments().getInt(key) : 0;
         adapter = new MapsAdapter(createNamesForDefaultList());
-        Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra(key, mapSize);
-        getContext().startService(service);
+        startService(mapSize);
+        recyclerViewConfiguration(adapter);
+        registerReceiver();
+        onClearClickListener();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(br);
+    }
+
+    public void recyclerViewConfiguration(MapsAdapter adapter) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -67,14 +75,12 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
         });
         binding.mapRecycler.setLayoutManager(layoutManager);
         binding.mapRecycler.setAdapter(adapter);
-        registerReceiver();
-        onClearClickListener();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(br);
+    private void startService(int mapSize) {
+        Intent service = new Intent(getActivity(), CalculationService.class);
+        service.putExtra(key, mapSize);
+        getContext().startService(service);
     }
 
     private List<BaseItem> createNamesForDefaultList() {
@@ -107,7 +113,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
 
     @Override
     public void onMapsItemReceived(ResultItem resultItem) {
-        adapter.setMapsItem(resultItem);
+        adapter.updateMapsItem(resultItem);
     }
 
     public static CalculationMapsFragment newInstance(Integer mapSize) {

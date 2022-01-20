@@ -1,4 +1,4 @@
-package fragments;
+package com.wenger.collectionsandmaps.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import com.wenger.collectionsandmaps.BaseFragment;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentMapsBinding;
 
-import MapsCalculation.CalculationMapsFragment;
+import com.wenger.collectionsandmaps.mapsCalculation.CalculationMapsFragment;
 
 
 public class MapsFragment extends BaseFragment {

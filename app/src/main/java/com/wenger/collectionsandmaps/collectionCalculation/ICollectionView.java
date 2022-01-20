@@ -1,4 +1,4 @@
-package CollectionCalculation;
+package com.wenger.collectionsandmaps.collectionCalculation;
 
 import com.wenger.collectionsandmaps.ResultItem;
 

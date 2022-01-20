@@ -1,4 +1,4 @@
-package CollectionCalculation;
+package com.wenger.collectionsandmaps.collectionCalculation;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,19 +11,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CalculationService;
 
-import app.MyApplication;
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.support.AndroidSupportInjection;
 import dagger.android.support.DaggerFragment;
-import di.DaggerAppComponent;
 
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
@@ -48,11 +42,6 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
         super(R.layout.fragment_calc_collections);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,18 +54,8 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
         super.onViewCreated(view, savedInstanceState);
         int collectionSize = getArguments() != null ? getArguments().getInt(key) : 0;
         adapter = new CollectionAdapter(createNamesForDefaultList());
-        Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra(key, collectionSize);
-        getContext().startService(service);
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return adapter.getItemViewType(position) == CollectionAdapter.VIEW_TYPE_HEADER ? 3 : 1;
-            }
-        });
-        binding.collectionsRecycler.setLayoutManager(layoutManager);
-        binding.collectionsRecycler.setAdapter(adapter);
+        startService(collectionSize);
+        recyclerViewConfiguration(adapter);
         registerReceiver();
         onClearClickListener();
     }
@@ -87,20 +66,38 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(br);
     }
 
+    private void recyclerViewConfiguration(CollectionAdapter adapter) {
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                return adapter.getItemViewType(position) == CollectionAdapter.VIEW_TYPE_HEADER ? 3 : 1;
+            }
+        });
+        binding.collectionsRecycler.setLayoutManager(layoutManager);
+        binding.collectionsRecycler.setAdapter(adapter);
+    }
+
+    private void startService(int collectionSize) {
+        Intent service = new Intent(getActivity(), CalculationService.class);
+        service.putExtra(key, collectionSize);
+        getContext().startService(service);
+    }
+
     private List<BaseItem> createNamesForDefaultList() {
-       String arrayList = getString(R.string.arrayList);
-       String linkedList = getString(R.string.linkedList);
-       String copyOnWrite = getString(R.string.copyOnWrite);
-       String addITheBeginningCollection = getString(R.string.add_in_the_beginning_collection);
-       String addInTheMiddleCollection = getString(R.string.add_in_the_middle_collection);
-       String addInTheEndCollection = getString(R.string.add_in_the_end_collection);
-       String searchByValueCollection = getString(R.string.search_by_value_collection);
-       String removeInTheBeginningCollection = getString(R.string.remove_in_the_beginning_collection);
-       String removeInTheMiddleCollection = getString(R.string.remove_in_the_middle_collection);
-       String removeInTheEndCollection = getString(R.string.remove_in_the_end_collection);
-        return collectionPresenter.createDefaultList(arrayList,linkedList,copyOnWrite,
-                addITheBeginningCollection,addInTheMiddleCollection, addInTheEndCollection,
-                searchByValueCollection,removeInTheBeginningCollection,removeInTheMiddleCollection,
+        String arrayList = getString(R.string.arrayList);
+        String linkedList = getString(R.string.linkedList);
+        String copyOnWrite = getString(R.string.copyOnWrite);
+        String addITheBeginningCollection = getString(R.string.add_in_the_beginning_collection);
+        String addInTheMiddleCollection = getString(R.string.add_in_the_middle_collection);
+        String addInTheEndCollection = getString(R.string.add_in_the_end_collection);
+        String searchByValueCollection = getString(R.string.search_by_value_collection);
+        String removeInTheBeginningCollection = getString(R.string.remove_in_the_beginning_collection);
+        String removeInTheMiddleCollection = getString(R.string.remove_in_the_middle_collection);
+        String removeInTheEndCollection = getString(R.string.remove_in_the_end_collection);
+        return collectionPresenter.createDefaultList(arrayList, linkedList, copyOnWrite,
+                addITheBeginningCollection, addInTheMiddleCollection, addInTheEndCollection,
+                searchByValueCollection, removeInTheBeginningCollection, removeInTheMiddleCollection,
                 removeInTheEndCollection);
     }
 
@@ -126,7 +123,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
 
     @Override
     public void onCollectionItemReceived(ResultItem resultItem) {
-        adapter.setCollectionItem(resultItem);
+        adapter.updateCollectionItem(resultItem);
     }
 
     public static CalculationCollectionsFragment newInstance(Integer collectionSize) {

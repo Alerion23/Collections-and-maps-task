@@ -1,4 +1,4 @@
-package MapsCalculation;
+package com.wenger.collectionsandmaps.mapsCalculation;
 
 import com.wenger.collectionsandmaps.ResultItem;
 
