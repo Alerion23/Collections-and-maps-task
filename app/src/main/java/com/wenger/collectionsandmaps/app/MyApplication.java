@@ -2,6 +2,7 @@ package com.wenger.collectionsandmaps.app;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
+
 import com.wenger.collectionsandmaps.di.AppComponent;
 import com.wenger.collectionsandmaps.di.AppModule;
 import com.wenger.collectionsandmaps.di.DaggerAppComponent;

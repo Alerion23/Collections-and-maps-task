@@ -53,7 +53,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int collectionSize = getArguments() != null ? getArguments().getInt(key) : 0;
-        adapter = new CollectionAdapter(createNamesForDefaultList());
+        adapter = new CollectionAdapter(collectionPresenter.createDefaultList());
         startService(collectionSize);
         recyclerViewConfiguration(adapter);
         registerReceiver();
@@ -84,23 +84,6 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
         getContext().startService(service);
     }
 
-    private List<BaseItem> createNamesForDefaultList() {
-        String arrayList = getString(R.string.arrayList);
-        String linkedList = getString(R.string.linkedList);
-        String copyOnWrite = getString(R.string.copyOnWrite);
-        String addITheBeginningCollection = getString(R.string.add_in_the_beginning_collection);
-        String addInTheMiddleCollection = getString(R.string.add_in_the_middle_collection);
-        String addInTheEndCollection = getString(R.string.add_in_the_end_collection);
-        String searchByValueCollection = getString(R.string.search_by_value_collection);
-        String removeInTheBeginningCollection = getString(R.string.remove_in_the_beginning_collection);
-        String removeInTheMiddleCollection = getString(R.string.remove_in_the_middle_collection);
-        String removeInTheEndCollection = getString(R.string.remove_in_the_end_collection);
-        return collectionPresenter.createDefaultList(arrayList, linkedList, copyOnWrite,
-                addITheBeginningCollection, addInTheMiddleCollection, addInTheEndCollection,
-                searchByValueCollection, removeInTheBeginningCollection, removeInTheMiddleCollection,
-                removeInTheEndCollection);
-    }
-
     private void registerReceiver() {
         br = new BroadcastReceiver() {
             @Override
@@ -119,7 +102,6 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
             getParentFragmentManager().popBackStack();
         });
     }
-
 
     @Override
     public void onCollectionItemReceived(ResultItem resultItem) {

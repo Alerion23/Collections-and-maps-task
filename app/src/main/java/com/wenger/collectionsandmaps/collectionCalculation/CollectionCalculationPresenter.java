@@ -2,6 +2,7 @@ package com.wenger.collectionsandmaps.collectionCalculation;
 
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.HeaderItem;
+import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
 import java.util.Arrays;
@@ -14,27 +15,27 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
 
     private List<BaseItem> defaultItems;
     private CalculationCollectionsFragment collectionView;
-    private int collectionId100 = 100;
-    private int collectionId101 = 101;
-    private int collectionId102 = 102;
-    private int collectionId103 = 103;
-    private int collectionId104 = 104;
-    private int collectionId105 = 105;
-    private int collectionId106 = 106;
-    private int collectionId107 = 107;
-    private int collectionId108 = 108;
-    private int collectionId109 = 109;
-    private int collectionId110 = 110;
-    private int collectionId111 = 111;
-    private int collectionId112 = 112;
-    private int collectionId113 = 113;
-    private int collectionId114 = 114;
-    private int collectionId115 = 115;
-    private int collectionId116 = 116;
-    private int collectionId117 = 117;
-    private int collectionId118 = 118;
-    private int collectionId119 = 119;
-    private int collectionId120 = 120;
+    private final int COLLECTION_ID_100 = 100;
+    private final int COLLECTION_ID_101 = 101;
+    private final int COLLECTION_ID_102 = 102;
+    private final int COLLECTION_ID_103 = 103;
+    private final int COLLECTION_ID_104 = 104;
+    private final int COLLECTION_ID_105 = 105;
+    private final int COLLECTION_ID_106 = 106;
+    private final int COLLECTION_ID_107 = 107;
+    private final int COLLECTION_ID_108 = 108;
+    private final int COLLECTION_ID_109 = 109;
+    private final int COLLECTION_ID_110 = 110;
+    private final int COLLECTION_ID_111 = 111;
+    private final int COLLECTION_ID_112 = 112;
+    private final int COLLECTION_ID_113 = 113;
+    private final int COLLECTION_ID_114 = 114;
+    private final int COLLECTION_ID_115 = 115;
+    private final int COLLECTION_ID_116 = 116;
+    private final int COLLECTION_ID_117 = 117;
+    private final int COLLECTION_ID_118 = 118;
+    private final int COLLECTION_ID_119 = 119;
+    private final int COLLECTION_ID_120 = 120;
 
     @Inject
     public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView) {
@@ -42,45 +43,46 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     }
 
     @Override
-    public List<BaseItem> createDefaultList(String arrayListTitle,
-                                            String linkedListTitle,
-                                            String copyOnWriteTitle,
-                                            String addITheBeginningCollectionHeader,
-                                            String addInTheMiddleCollectionHeader,
-                                            String addInTheEndCollectionHeader,
-                                            String searchByValueCollectionHeader,
-                                            String removeInTheBeginningCollectionHeader,
-                                            String removeInTheMiddleCollectionHeader,
-                                            String removeInTheEndCollectionHeader) {
+    public List<BaseItem> createDefaultList() {
+        int arrayListTitle = R.string.arrayList;
+        int linkedListTitle = R.string.linkedList;
+        int copyOnWriteTitle = R.string.copyOnWrite;
+        int addITheBeginningCollectionHeader = R.string.add_in_the_beginning_collection;
+        int addInTheMiddleCollectionHeader = R.string.add_in_the_middle_collection;
+        int addInTheEndCollectionHeader = R.string.add_in_the_end_collection;
+        int searchByValueCollectionHeader = R.string.search_by_value_collection;
+        int removeInTheBeginningCollectionHeader = R.string.remove_in_the_beginning_collection;
+        int removeInTheMiddleCollectionHeader = R.string.remove_in_the_middle_collection;
+        int removeInTheEndCollectionHeader = R.string.remove_in_the_end_collection;
         defaultItems = Arrays.asList(
                 new HeaderItem(addITheBeginningCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId100),
-                new ResultItem(-1, linkedListTitle, collectionId101),
-                new ResultItem(-1, copyOnWriteTitle, collectionId102),
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_100),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_101),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_102),
                 new HeaderItem(addInTheMiddleCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId103),
-                new ResultItem(-1, linkedListTitle, collectionId104),
-                new ResultItem(-1, copyOnWriteTitle, collectionId105),
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_103),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_104),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_105),
                 new HeaderItem(addInTheEndCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId106),
-                new ResultItem(-1, linkedListTitle, collectionId107),
-                new ResultItem(-1, copyOnWriteTitle, collectionId108),
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_106),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_107),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_108),
                 new HeaderItem(searchByValueCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId109),
-                new ResultItem(-1, linkedListTitle, collectionId110),
-                new ResultItem(-1, copyOnWriteTitle, collectionId111),
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_109),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_110),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_111),
                 new HeaderItem(removeInTheBeginningCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId112),
-                new ResultItem(-1, linkedListTitle, collectionId113),
-                new ResultItem(-1, copyOnWriteTitle, collectionId114),
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_112),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_113),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_114),
                 new HeaderItem(removeInTheMiddleCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId115),
-                new ResultItem(-1, linkedListTitle, collectionId116),
-                new ResultItem(-1, copyOnWriteTitle, collectionId117),
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_115),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_116),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_117),
                 new HeaderItem(removeInTheEndCollectionHeader),
-                new ResultItem(-1, arrayListTitle, collectionId118),
-                new ResultItem(-1, linkedListTitle, collectionId119),
-                new ResultItem(-1, copyOnWriteTitle, collectionId120));
+                new ResultItem(-1, arrayListTitle, COLLECTION_ID_118),
+                new ResultItem(-1, linkedListTitle, COLLECTION_ID_119),
+                new ResultItem(-1, copyOnWriteTitle, COLLECTION_ID_120));
         return defaultItems;
     }
 

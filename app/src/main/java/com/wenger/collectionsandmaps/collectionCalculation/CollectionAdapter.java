@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +30,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void updateCollectionItem(ResultItem newItem) {
         for (int i = 0; i < itemList.size(); i++) {
             BaseItem item = itemList.get(i);
-            if (item instanceof ResultItem && newItem.getId() == ((ResultItem)item).getId()) {
+            if (item instanceof ResultItem && newItem.getId() == ((ResultItem) item).getId()) {
                 itemList.set(i, new ResultItem(newItem.getResult(),
                         ((ResultItem) item).getTitle(), ((ResultItem) item).getId()));
                 notifyItemChanged(i);
@@ -45,27 +43,21 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_collection, parent, false);
-            return new ItemViewHolder(view.getRootView());
+            return new CollectionItemViewHolder(view.getRootView());
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item_collections, parent, false);
-            return new HeaderViewHolder(view.getRootView());
+            return new CollectionHeaderViewHolder(view.getRootView());
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (itemList.get(position).getType() == headerOfItem) {
-            HeaderViewHolder h = (HeaderViewHolder) holder;
-            HeaderItem header = ((HeaderItem) itemList.get(position));
-            h.header.setText(header.getHeader());
+            CollectionHeaderViewHolder h = (CollectionHeaderViewHolder) holder;
+            h.bind(h, itemList, position);
         } else {
-            ItemViewHolder h = (ItemViewHolder) holder;
-            ResultItem item = ((ResultItem) itemList.get(position));
-            h.title.setText(item.getTitle());
-            if (item.getResult() >= 0) {
-                h.result.setText(item.getResult().toString());
-                h.loading.setVisibility(View.GONE);
-            }
+            CollectionItemViewHolder h = (CollectionItemViewHolder) holder;
+            h.bind(h, itemList, position);
         }
     }
 
@@ -83,27 +75,4 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        TextView title;
-        TextView result;
-        ProgressBar loading;
-
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.title_coll);
-            result = itemView.findViewById(R.id.result);
-            loading = itemView.findViewById(R.id.progress_bar_collection);
-        }
-    }
-
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
-
-        TextView header;
-
-        public HeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            header = itemView.findViewById(R.id.textViewHeader);
-        }
-    }
 }

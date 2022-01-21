@@ -52,7 +52,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int mapSize = getArguments() != null ? getArguments().getInt(key) : 0;
-        adapter = new MapsAdapter(createNamesForDefaultList());
+        adapter = new MapsAdapter(mapsPresenter.createDefaultList());
         startService(mapSize);
         recyclerViewConfiguration(adapter);
         registerReceiver();
@@ -81,15 +81,6 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
         Intent service = new Intent(getActivity(), CalculationService.class);
         service.putExtra(key, mapSize);
         getContext().startService(service);
-    }
-
-    private List<BaseItem> createNamesForDefaultList() {
-        String treeMap = getString(R.string.treeMap);
-        String hashMap = getString(R.string.hashMap);
-        String addingNew = getString(R.string.adding_new_map);
-        String searchByKey = getString(R.string.search_by_key_map);
-        String removing = getString(R.string.removing_map);
-        return mapsPresenter.createDefaultList(treeMap, hashMap, addingNew, searchByKey, removing);
     }
 
     private void registerReceiver() {

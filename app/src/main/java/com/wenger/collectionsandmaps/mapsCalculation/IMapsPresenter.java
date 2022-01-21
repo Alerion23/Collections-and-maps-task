@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface IMapsPresenter {
 
-    List<BaseItem> createDefaultList(String treeMapTitle, String hashMapTitle, String addingNewHeader,
-                                     String searchByKeyHeader, String removingHeader);
+    List<BaseItem> createDefaultList();
 
     void getDataFromReceiver(int resultMaps, int idMaps);
 }

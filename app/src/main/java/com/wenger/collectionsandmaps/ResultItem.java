@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.StringRes;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,9 +23,9 @@ public class ResultItem extends BaseItem {
 
     private int result;
     private int id;
-    private String title;
+    private @StringRes int title;
 
-    public ResultItem(int result, String title, int id) {
+    public ResultItem(int result, int title, int id) {
         super("result");
         this.title = title;
         this.result = result;
@@ -47,11 +49,11 @@ public class ResultItem extends BaseItem {
     }
 
 
-    public String getTitle() {
+    public int getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(int title) {
         this.title = title;
     }
 

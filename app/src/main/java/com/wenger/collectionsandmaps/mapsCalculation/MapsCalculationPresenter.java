@@ -2,6 +2,7 @@ package com.wenger.collectionsandmaps.mapsCalculation;
 
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.HeaderItem;
+import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
 import java.util.Arrays;
@@ -13,12 +14,12 @@ public class MapsCalculationPresenter implements IMapsPresenter {
 
     private CalculationMapsFragment mapsView;
     private List<BaseItem> defaultItems;
-    private int mapsId121 = 121;
-    private int mapsId122 = 122;
-    private int mapsId123 = 123;
-    private int mapsId124 = 124;
-    private int mapsId125 = 125;
-    private int mapsId126 = 126;
+    private final int MAPS_ID_121 = 121;
+    private final int MAPS_ID_122 = 122;
+    private final int MAPS_ID_123 = 123;
+    private final int MAPS_ID_124 = 124;
+    private final int MAPS_ID_125 = 125;
+    private final int MAPS_ID_126 = 126;
 
     @Inject
     public MapsCalculationPresenter(CalculationMapsFragment mapsView) {
@@ -26,19 +27,22 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     }
 
     @Override
-    public List<BaseItem> createDefaultList(String treeMapTitle, String hashMapTitle, String addingNewHeader,
-                                            String searchByKeyHeader, String removingHeader) {
-
+    public List<BaseItem> createDefaultList() {
+        int treeMapTitle = R.string.treeMap;
+        int hashMapTitle = R.string.hashMap;
+        int addingNewHeader = R.string.adding_new_map;
+        int searchByKeyHeader = R.string.search_by_key_map;
+        int removingHeader = R.string.removing_map;
         defaultItems = Arrays.asList(
                 new HeaderItem(addingNewHeader),
-                new ResultItem(-1, treeMapTitle, mapsId121),
-                new ResultItem(-1, hashMapTitle, mapsId122),
+                new ResultItem(-1, treeMapTitle, MAPS_ID_121),
+                new ResultItem(-1, hashMapTitle, MAPS_ID_122),
                 new HeaderItem(searchByKeyHeader),
-                new ResultItem(-1, treeMapTitle, mapsId123),
-                new ResultItem(-1, hashMapTitle, mapsId124),
+                new ResultItem(-1, treeMapTitle, MAPS_ID_123),
+                new ResultItem(-1, hashMapTitle, MAPS_ID_124),
                 new HeaderItem(removingHeader),
-                new ResultItem(-1, treeMapTitle, mapsId125),
-                new ResultItem(-1, hashMapTitle, mapsId126));
+                new ResultItem(-1, treeMapTitle, MAPS_ID_125),
+                new ResultItem(-1, hashMapTitle, MAPS_ID_126));
         return defaultItems;
     }
 

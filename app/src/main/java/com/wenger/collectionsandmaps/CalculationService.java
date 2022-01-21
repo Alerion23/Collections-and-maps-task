@@ -19,14 +19,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class CalculationService extends Service {
 
-    private String collectionResult = "result";
-    private String collectionId = "id";
-    private String mapResult = "resultMaps";
-    private String mapId = "idMaps";
-    private String action = "CollectionCalculate";
-    private String collectionKey = "collectionSize";
-    private String mapsKey = "mapSize";
-    private int value = 500000;
+    private final String collectionResult = "result";
+    private final String collectionId = "id";
+    private final String mapResult = "resultMaps";
+    private final String mapId = "idMaps";
+    private final String action = "CollectionCalculate";
+    private final String collectionKey = "collectionSize";
+    private final String mapsKey = "mapSize";
+    private final int VALUE = 500000;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -143,7 +143,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(0, value);
+            list.add(0, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -160,7 +160,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(list.size() / 2, value);
+            list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -176,7 +176,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(value);
+            list.add(VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -192,7 +192,7 @@ public class CalculationService extends Service {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             for (int y = 0; y < collectionSize; y++) {
-                if (list.get(y) == value) {
+                if (list.get(y) == VALUE) {
                     Integer result = list.get(y);
                 }
             }
@@ -255,7 +255,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.addFirst(value);
+            list.addFirst(VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -270,7 +270,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(list.size() / 2, value);
+            list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -285,7 +285,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.addLast(value);
+            list.addLast(VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -365,7 +365,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(0, value);
+            list.add(0, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -380,7 +380,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(list.size() / 2, value);
+            list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -395,7 +395,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
-            list.add(value);
+            list.add(VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -475,7 +475,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            map.put(map.size() + 1, value);
+            map.put(map.size() + 1, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })
@@ -524,7 +524,7 @@ public class CalculationService extends Service {
         Single.fromCallable(() -> {
             HashMap<Integer, Integer> map = createHashMap(mapsSize);
             long startTime = System.currentTimeMillis();
-            map.put(map.size() + 1, value);
+            map.put(map.size() + 1, VALUE);
             long endTime = System.currentTimeMillis();
             return timeResult(endTime, startTime);
         })

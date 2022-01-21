@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,16 +36,15 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_collection, parent, false);
-            return new ItemViewHolder(view.getRootView());
+            return new MapsItemViewHolder(view.getRootView());
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_item_collections, parent, false);
-            return new HeaderViewHolder(view);
+            return new MapsHeaderViewHolder(view);
         }
 
     }
@@ -55,17 +52,11 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (itemList.get(position).getType() == "header") {
-            HeaderViewHolder h = (HeaderViewHolder) holder;
-            HeaderItem header = (HeaderItem) itemList.get(position);
-            h.header.setText(header.getHeader());
+            MapsHeaderViewHolder h = (MapsHeaderViewHolder) holder;
+            h.bind(h, itemList, position);
         } else {
-            ItemViewHolder h = (ItemViewHolder) holder;
-            ResultItem item = (ResultItem) itemList.get(position);
-            h.title.setText(item.getTitle());
-            if (item.getResult() >= 0) {
-                h.result.setText(item.getResult().toString());
-                h.loading.setVisibility(View.GONE);
-            }
+            MapsItemViewHolder h = (MapsItemViewHolder) holder;
+            h.bind(h, itemList, position);
         }
     }
 
@@ -80,28 +71,6 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;
-        }
-    }
-
-    static class ItemViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView result;
-        ProgressBar loading;
-
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.title_coll);
-            result = itemView.findViewById(R.id.result);
-            loading = itemView.findViewById(R.id.progress_bar_collection);
-        }
-    }
-
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView header;
-
-        public HeaderViewHolder(@NonNull View itemView) {
-            super(itemView);
-            header = itemView.findViewById(R.id.textViewHeader);
         }
     }
 

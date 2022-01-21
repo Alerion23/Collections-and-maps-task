@@ -1,19 +1,21 @@
 package com.wenger.collectionsandmaps;
 
+import androidx.annotation.StringRes;
+
 public class HeaderItem extends BaseItem {
 
-    private String header;
+    private @StringRes int header;
 
-    public HeaderItem(String header) {
+    public HeaderItem(int header) {
         super("header");
         this.header = header;
     }
 
-    public String getHeader() {
+    public int getHeader() {
         return header;
     }
 
-    public void setHeader(String header) {
+    public void setHeader(int header) {
         this.header = header;
     }
 }
