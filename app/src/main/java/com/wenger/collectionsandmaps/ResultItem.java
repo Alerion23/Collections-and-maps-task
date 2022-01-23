@@ -25,7 +25,7 @@ public class ResultItem extends BaseItem {
     private int id;
     private @StringRes int title;
 
-    public ResultItem(int result, int title, int id) {
+    public ResultItem(int result, @StringRes int title, int id) {
         super("result");
         this.title = title;
         this.result = result;

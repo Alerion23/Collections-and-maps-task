@@ -32,7 +32,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     private FragmentCalcMapsBinding binding;
     private MapsAdapter adapter;
     private BroadcastReceiver br;
-    private String key = "mapSize";
+    private final String KEY = "mapSize";
 
     @Inject
     MapsCalculationPresenter mapsPresenter;
@@ -51,7 +51,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int mapSize = getArguments() != null ? getArguments().getInt(key) : 0;
+        int mapSize = getArguments() != null ? getArguments().getInt(KEY) : 0;
         adapter = new MapsAdapter(mapsPresenter.createDefaultList());
         startService(mapSize);
         recyclerViewConfiguration(adapter);
@@ -79,7 +79,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
 
     private void startService(int mapSize) {
         Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra(key, mapSize);
+        service.putExtra(KEY, mapSize);
         getContext().startService(service);
     }
 
@@ -104,13 +104,13 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
 
     @Override
     public void onMapsItemReceived(ResultItem resultItem) {
-        adapter.updateMapsItem(resultItem);
+        adapter.updateItem(resultItem);
     }
 
     public static CalculationMapsFragment newInstance(Integer mapSize) {
         CalculationMapsFragment fragment = new CalculationMapsFragment();
         Bundle args = new Bundle();
-        args.putInt(fragment.key, mapSize);
+        args.putInt(fragment.KEY, mapSize);
         fragment.setArguments(args);
         return fragment;
     }

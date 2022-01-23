@@ -15,27 +15,27 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
 
     private List<BaseItem> defaultItems;
     private CalculationCollectionsFragment collectionView;
-    private final int COLLECTION_ID_100 = 100;
-    private final int COLLECTION_ID_101 = 101;
-    private final int COLLECTION_ID_102 = 102;
-    private final int COLLECTION_ID_103 = 103;
-    private final int COLLECTION_ID_104 = 104;
-    private final int COLLECTION_ID_105 = 105;
-    private final int COLLECTION_ID_106 = 106;
-    private final int COLLECTION_ID_107 = 107;
-    private final int COLLECTION_ID_108 = 108;
-    private final int COLLECTION_ID_109 = 109;
-    private final int COLLECTION_ID_110 = 110;
-    private final int COLLECTION_ID_111 = 111;
-    private final int COLLECTION_ID_112 = 112;
-    private final int COLLECTION_ID_113 = 113;
-    private final int COLLECTION_ID_114 = 114;
-    private final int COLLECTION_ID_115 = 115;
-    private final int COLLECTION_ID_116 = 116;
-    private final int COLLECTION_ID_117 = 117;
-    private final int COLLECTION_ID_118 = 118;
-    private final int COLLECTION_ID_119 = 119;
-    private final int COLLECTION_ID_120 = 120;
+    public static final int COLLECTION_ID_100 = 100;
+    public static final int COLLECTION_ID_101 = 101;
+    public static final int COLLECTION_ID_102 = 102;
+    public static final int COLLECTION_ID_103 = 103;
+    public static final int COLLECTION_ID_104 = 104;
+    public static final int COLLECTION_ID_105 = 105;
+    public static final int COLLECTION_ID_106 = 106;
+    public static final int COLLECTION_ID_107 = 107;
+    public static final int COLLECTION_ID_108 = 108;
+    public static final int COLLECTION_ID_109 = 109;
+    public static final int COLLECTION_ID_110 = 110;
+    public static final int COLLECTION_ID_111 = 111;
+    public static final int COLLECTION_ID_112 = 112;
+    public static final int COLLECTION_ID_113 = 113;
+    public static final int COLLECTION_ID_114 = 114;
+    public static final int COLLECTION_ID_115 = 115;
+    public static final int COLLECTION_ID_116 = 116;
+    public static final int COLLECTION_ID_117 = 117;
+    public static final int COLLECTION_ID_118 = 118;
+    public static final int COLLECTION_ID_119 = 119;
+    public static final int COLLECTION_ID_120 = 120;
 
     @Inject
     public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView) {

@@ -33,7 +33,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
     private FragmentCalcCollectionsBinding binding;
     private CollectionAdapter adapter;
     private BroadcastReceiver br;
-    private String key = "collectionSize";
+    private final String KEY = "collectionSize";
 
     @Inject
     CollectionCalculationPresenter collectionPresenter;
@@ -52,7 +52,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int collectionSize = getArguments() != null ? getArguments().getInt(key) : 0;
+        int collectionSize = getArguments() != null ? getArguments().getInt(KEY) : 0;
         adapter = new CollectionAdapter(collectionPresenter.createDefaultList());
         startService(collectionSize);
         recyclerViewConfiguration(adapter);
@@ -80,7 +80,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
 
     private void startService(int collectionSize) {
         Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra(key, collectionSize);
+        service.putExtra(KEY, collectionSize);
         getContext().startService(service);
     }
 
@@ -105,13 +105,13 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
 
     @Override
     public void onCollectionItemReceived(ResultItem resultItem) {
-        adapter.updateCollectionItem(resultItem);
+        adapter.updateItem(resultItem);
     }
 
     public static CalculationCollectionsFragment newInstance(Integer collectionSize) {
         CalculationCollectionsFragment fragment = new CalculationCollectionsFragment();
         Bundle args = new Bundle();
-        args.putInt(fragment.key, collectionSize);
+        args.putInt(fragment.KEY, collectionSize);
         fragment.setArguments(args);
         return fragment;
 

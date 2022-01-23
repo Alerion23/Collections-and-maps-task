@@ -6,7 +6,7 @@ public class HeaderItem extends BaseItem {
 
     private @StringRes int header;
 
-    public HeaderItem(int header) {
+    public HeaderItem(@StringRes int header) {
         super("header");
         this.header = header;
     }

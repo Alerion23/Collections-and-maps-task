@@ -25,12 +25,11 @@ class MapsItemViewHolder extends RecyclerView.ViewHolder {
         loading = itemView.findViewById(R.id.progress_bar_collection);
     }
 
-    public void bind(MapsItemViewHolder h, List<BaseItem> itemList, int position) {
-        ResultItem item = (ResultItem) itemList.get(position);
-        h.title.setText(item.getTitle());
+    public void bind(ResultItem item) {
+        title.setText(item.getTitle());
         if (item.getResult() >= 0) {
-            h.result.setText(item.getResult().toString());
-            h.loading.setVisibility(View.GONE);
+            result.setText(item.getResult().toString());
+            loading.setVisibility(View.GONE);
         }
     }
 }

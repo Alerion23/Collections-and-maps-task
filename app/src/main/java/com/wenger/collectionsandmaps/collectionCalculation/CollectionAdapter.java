@@ -20,14 +20,14 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private List<BaseItem> itemList;
     public static final int VIEW_TYPE_HEADER = 0;
     public static final int VIEW_TYPE_ITEM = 1;
-    private String headerOfItem = "header";
+    private final String HEADER_ITEM = "header";
 
     public CollectionAdapter(List<BaseItem> itemList) {
         this.itemList = itemList;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateCollectionItem(ResultItem newItem) {
+    public void updateItem(ResultItem newItem) {
         for (int i = 0; i < itemList.size(); i++) {
             BaseItem item = itemList.get(i);
             if (item instanceof ResultItem && newItem.getId() == ((ResultItem) item).getId()) {
@@ -52,12 +52,14 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (itemList.get(position).getType() == headerOfItem) {
+        if (itemList.get(position).getType() == HEADER_ITEM) {
+            HeaderItem header = ((HeaderItem) itemList.get(position));
             CollectionHeaderViewHolder h = (CollectionHeaderViewHolder) holder;
-            h.bind(h, itemList, position);
+            h.bind(header);
         } else {
+            ResultItem item = ((ResultItem) itemList.get(position));
             CollectionItemViewHolder h = (CollectionItemViewHolder) holder;
-            h.bind(h, itemList, position);
+            h.bind(item);
         }
     }
 
@@ -68,7 +70,7 @@ public class CollectionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (itemList.get(position).getType() == headerOfItem) {
+        if (itemList.get(position).getType() == HEADER_ITEM) {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;

@@ -7,6 +7,9 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.wenger.collectionsandmaps.collectionCalculation.CollectionCalculationPresenter;
+import com.wenger.collectionsandmaps.mapsCalculation.MapsCalculationPresenter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -19,19 +22,19 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class CalculationService extends Service {
 
-    private final String collectionResult = "result";
-    private final String collectionId = "id";
-    private final String mapResult = "resultMaps";
-    private final String mapId = "idMaps";
-    private final String action = "CollectionCalculate";
-    private final String collectionKey = "collectionSize";
-    private final String mapsKey = "mapSize";
+    private final String COLLECTION_RESULT = "result";
+    private final String COLLECTION_ID = "id";
+    private final String MAP_RESULT = "resultMaps";
+    private final String MAP_ID = "idMaps";
+    private final String ACTION = "CollectionCalculate";
+    private final String COLLECTION_KEY = "collectionSize";
+    private final String MAPS_KEY = "mapSize";
     private final int VALUE = 500000;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        int collectionSize = intent.getExtras().getInt(collectionKey);
-        int mapsSize = intent.getExtras().getInt(mapsKey);
+        int collectionSize = intent.getExtras().getInt(COLLECTION_KEY);
+        int mapsSize = intent.getExtras().getInt(MAPS_KEY);
         if (collectionSize != 0) {
             collectionCalculate(collectionSize);
         }
@@ -126,16 +129,16 @@ public class CalculationService extends Service {
     }
 
     private void sendCollectionBroadcast(int integer, int id) {
-        Intent intent = new Intent(action);
-        intent.putExtra(collectionResult, integer);
-        intent.putExtra(collectionId, id);
+        Intent intent = new Intent(ACTION);
+        intent.putExtra(COLLECTION_RESULT, integer);
+        intent.putExtra(COLLECTION_ID, id);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
     private void sendMapsBroadcast(int integer, int id) {
-        Intent intent = new Intent(action);
-        intent.putExtra(mapResult, integer);
-        intent.putExtra(mapId, id);
+        Intent intent = new Intent(ACTION);
+        intent.putExtra(MAP_RESULT, integer);
+        intent.putExtra(MAP_ID, id);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
     }
 
@@ -150,7 +153,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 100);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_100);
                 });
 
     }
@@ -167,7 +170,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 103);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_103);
                 });
 
     }
@@ -183,7 +186,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 106);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_106);
                 });
     }
 
@@ -202,7 +205,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 109);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_109);
                 });
     }
 
@@ -217,7 +220,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 112);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_112);
                 });
     }
 
@@ -232,7 +235,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 115);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_115);
                 });
     }
 
@@ -247,7 +250,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 118);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_118);
                 });
     }
 
@@ -262,7 +265,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 101);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_101);
                 });
     }
 
@@ -277,7 +280,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 104);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_104);
                 });
     }
 
@@ -292,7 +295,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 107);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_107);
                 });
     }
 
@@ -312,7 +315,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 110);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_110);
                 });
     }
 
@@ -327,7 +330,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 113);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_113);
                 });
     }
 
@@ -342,7 +345,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 116);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_116);
                 });
     }
 
@@ -357,7 +360,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 119);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_119);
                 });
     }
 
@@ -372,7 +375,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 102);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_102);
                 });
     }
 
@@ -387,7 +390,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 105);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_105);
                 });
     }
 
@@ -402,7 +405,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 108);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_108);
                 });
     }
 
@@ -422,7 +425,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 111);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_111);
                 });
     }
 
@@ -437,7 +440,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 114);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_114);
                 });
     }
 
@@ -452,7 +455,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 117);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_117);
                 });
     }
 
@@ -467,7 +470,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendCollectionBroadcast(integer, 120);
+                    sendCollectionBroadcast(integer, CollectionCalculationPresenter.COLLECTION_ID_120);
                 });
     }
 
@@ -482,7 +485,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendMapsBroadcast(integer, 121);
+                    sendMapsBroadcast(integer, MapsCalculationPresenter.MAPS_ID_121);
                 });
     }
 
@@ -501,7 +504,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendMapsBroadcast(integer, 123);
+                    sendMapsBroadcast(integer, MapsCalculationPresenter.MAPS_ID_123);
                 });
     }
 
@@ -516,7 +519,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendMapsBroadcast(integer, 125);
+                    sendMapsBroadcast(integer, MapsCalculationPresenter.MAPS_ID_125);
                 });
     }
 
@@ -531,7 +534,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendMapsBroadcast(integer, 122);
+                    sendMapsBroadcast(integer, MapsCalculationPresenter.MAPS_ID_122);
                 });
     }
 
@@ -551,7 +554,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendMapsBroadcast(integer, 124);
+                    sendMapsBroadcast(integer, MapsCalculationPresenter.MAPS_ID_124);
                 });
     }
 
@@ -566,7 +569,7 @@ public class CalculationService extends Service {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    sendMapsBroadcast(integer, 126);
+                    sendMapsBroadcast(integer, MapsCalculationPresenter.MAPS_ID_126);
                 });
     }
 }

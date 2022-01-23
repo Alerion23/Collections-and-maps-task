@@ -19,13 +19,14 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<BaseItem> itemList;
     public static final int VIEW_TYPE_HEADER = 0;
     public static final int VIEW_TYPE_ITEM = 1;
+    private final String HEADER_ITEM = "header";
 
     public MapsAdapter(List<BaseItem> itemList) {
         this.itemList = itemList;
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void updateMapsItem(ResultItem newItem) {
+    public void updateItem(ResultItem newItem) {
         for (int i = 0; i < itemList.size(); i++) {
             BaseItem item = itemList.get(i);
             if (item instanceof ResultItem && newItem.getId() == ((ResultItem) item).getId()) {
@@ -51,12 +52,14 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (itemList.get(position).getType() == "header") {
+        if (itemList.get(position).getType() == HEADER_ITEM) {
+            HeaderItem header = (HeaderItem) itemList.get(position);
             MapsHeaderViewHolder h = (MapsHeaderViewHolder) holder;
-            h.bind(h, itemList, position);
+            h.bind(header);
         } else {
+            ResultItem item = (ResultItem) itemList.get(position);
             MapsItemViewHolder h = (MapsItemViewHolder) holder;
-            h.bind(h, itemList, position);
+            h.bind(item);
         }
     }
 
@@ -67,7 +70,7 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (itemList.get(position).getType() == "header") {
+        if (itemList.get(position).getType() == HEADER_ITEM) {
             return VIEW_TYPE_HEADER;
         } else {
             return VIEW_TYPE_ITEM;

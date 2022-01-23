@@ -21,8 +21,7 @@ class CollectionHeaderViewHolder extends RecyclerView.ViewHolder {
         header = itemView.findViewById(R.id.textViewHeader);
     }
 
-    public void bind(CollectionHeaderViewHolder h, List<BaseItem> itemList, int position) {
-        HeaderItem header = ((HeaderItem) itemList.get(position));
-        h.header.setText(header.getHeader());
+    public void bind(HeaderItem headerItem) {
+        header.setText(headerItem.getHeader());
     }
 }

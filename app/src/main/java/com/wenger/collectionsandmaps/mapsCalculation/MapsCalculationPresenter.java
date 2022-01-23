@@ -14,12 +14,12 @@ public class MapsCalculationPresenter implements IMapsPresenter {
 
     private CalculationMapsFragment mapsView;
     private List<BaseItem> defaultItems;
-    private final int MAPS_ID_121 = 121;
-    private final int MAPS_ID_122 = 122;
-    private final int MAPS_ID_123 = 123;
-    private final int MAPS_ID_124 = 124;
-    private final int MAPS_ID_125 = 125;
-    private final int MAPS_ID_126 = 126;
+    public static final int MAPS_ID_121 = 121;
+    public static final int MAPS_ID_122 = 122;
+    public static final int MAPS_ID_123 = 123;
+    public static final int MAPS_ID_124 = 124;
+    public static final int MAPS_ID_125 = 125;
+    public static final int MAPS_ID_126 = 126;
 
     @Inject
     public MapsCalculationPresenter(CalculationMapsFragment mapsView) {
