@@ -5,10 +5,17 @@ import com.wenger.collectionsandmaps.HeaderItem;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.inject.Inject;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class CollectionCalculationPresenter implements ICollectionPresenter {
@@ -36,6 +43,7 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     public static final int COLLECTION_ID_118 = 118;
     public static final int COLLECTION_ID_119 = 119;
     public static final int COLLECTION_ID_120 = 120;
+    private final int VALUE = 500000;
 
     @Inject
     public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView) {
@@ -87,7 +95,393 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     }
 
     @Override
-    public void getDataFromReceiver(int resultCollection, int idCollection) {
+    public void collectionCalculation(int collectionSize) {
+        arrayListAddInTheBeginning(collectionSize);
+        linkInListAddInTheBeginning(collectionSize);
+        copyOnWriteAddInTheBeginning(collectionSize);
+        arrayListAddInTheMiddle(collectionSize);
+        linkInListAddInTheMiddle(collectionSize);
+        copyOnWriteAddInTheMiddle(collectionSize);
+        arrayListAddInTheEnd(collectionSize);
+        linkInListAddInTheEnd(collectionSize);
+        copyOnWriteAddInTheEnd(collectionSize);
+        arrayListSearchBy(collectionSize);
+        linkInListSearByValue(collectionSize);
+        copyOnWriteSearchByValue(collectionSize);
+        arrayListRemoveInTheBeginning(collectionSize);
+        linkInListRemoveInTheBeginning(collectionSize);
+        copyOnWriteRemovingInTheBeginning(collectionSize);
+        arrayListRemoveInTheMiddle(collectionSize);
+        linkInListRemoveInTheMiddle(collectionSize);
+        copyOnWriteRemovingInTheMiddle(collectionSize);
+        arrayListRemoveInTheEnd(collectionSize);
+        linkInListRemoveInTheEnd(collectionSize);
+        copyOnWriteRemovingInTheEnd(collectionSize);
+    }
+
+    private ArrayList<Integer> createArrayList(Integer collectionSize) {
+        ArrayList<Integer> list = new ArrayList<>();
+        for (int y = 0; y < collectionSize; y++) {
+            list.add(y);
+        }
+        return list;
+    }
+
+    private LinkedList<Integer> createLinkedList(Integer collectionSize) {
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < collectionSize; i++) {
+            list.add(i);
+        }
+        return list;
+    }
+
+    private CopyOnWriteArrayList<Integer> createCopyOnWrite(Integer collectionSize) {
+        CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>();
+        for (int i = 0; i < collectionSize; i++) {
+            list.add(i);
+        }
+        return list;
+    }
+
+    private Integer timeResult(long endTime, long startTime) {
+        long timeElapsed = endTime - startTime;
+        return (int) timeElapsed;
+    }
+
+    private void arrayListAddInTheBeginning(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(0, VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_100);
+                });
+
+    }
+
+
+    private void arrayListAddInTheMiddle(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(list.size() / 2, VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_103);
+                });
+
+    }
+
+    private void arrayListAddInTheEnd(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_106);
+                });
+    }
+
+    private void arrayListSearchBy(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            for (int y = 0; y < collectionSize; y++) {
+                if (list.get(y) == VALUE) {
+                    Integer result = list.get(y);
+                }
+            }
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_109);
+                });
+    }
+
+    private void arrayListRemoveInTheBeginning(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(0);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_112);
+                });
+    }
+
+    private void arrayListRemoveInTheMiddle(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(list.size() / 2);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_115);
+                });
+    }
+
+    private void arrayListRemoveInTheEnd(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            ArrayList<Integer> list = createArrayList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(list.size() - 1);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_118);
+                });
+    }
+
+    private void linkInListAddInTheBeginning(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.addFirst(VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_101);
+                });
+    }
+
+    private void linkInListAddInTheMiddle(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(list.size() / 2, VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_104);
+                });
+    }
+
+    private void linkInListAddInTheEnd(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.addLast(VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_107);
+                });
+    }
+
+    private void linkInListSearByValue(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            Integer value = 500000;
+            long startTime = System.currentTimeMillis();
+            for (int y = 0; y < collectionSize; y++) {
+                if (value.equals(list.get(y))) {
+                    Integer result = list.get(y);
+                }
+            }
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_110);
+                });
+    }
+
+    private void linkInListRemoveInTheBeginning(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.removeFirst();
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_113);
+                });
+    }
+
+    private void linkInListRemoveInTheMiddle(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(list.size() / 2);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_116);
+                });
+    }
+
+    private void linkInListRemoveInTheEnd(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            LinkedList<Integer> list = createLinkedList(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.removeLast();
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_119);
+                });
+    }
+
+    private void copyOnWriteAddInTheBeginning(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(0, VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_102);
+                });
+    }
+
+    private void copyOnWriteAddInTheMiddle(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(list.size() / 2, VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_105);
+                });
+    }
+
+    private void copyOnWriteAddInTheEnd(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.add(VALUE);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_108);
+                });
+    }
+
+    private void copyOnWriteSearchByValue(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            Integer value = 500000;
+            long startTime = System.currentTimeMillis();
+            for (int y = 0; y < collectionSize; y++) {
+                if (value.equals(list.get(y))) {
+                    Integer result = list.get(y);
+                }
+            }
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_111);
+                });
+    }
+
+    private void copyOnWriteRemovingInTheBeginning(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(0);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_114);
+                });
+    }
+
+    private void copyOnWriteRemovingInTheMiddle(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(list.size() / 2);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_117);
+                });
+    }
+
+    private void copyOnWriteRemovingInTheEnd(Integer collectionSize) {
+        Single.fromCallable(() -> {
+            CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
+            long startTime = System.currentTimeMillis();
+            list.remove(list.size() - 1);
+            long endTime = System.currentTimeMillis();
+            return timeResult(endTime, startTime);
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    getNewItem(integer, COLLECTION_ID_120);
+                });
+    }
+
+    @Override
+    public void getNewItem(int resultCollection, int idCollection) {
         for (int i = 0; i < defaultItems.size(); i++) {
             BaseItem item = defaultItems.get(i);
             if (item instanceof ResultItem && ((ResultItem) item).getId() == idCollection) {
@@ -97,4 +491,6 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
             }
         }
     }
+
+
 }

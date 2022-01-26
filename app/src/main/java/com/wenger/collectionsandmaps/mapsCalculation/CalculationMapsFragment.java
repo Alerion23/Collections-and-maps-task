@@ -1,9 +1,5 @@
 package com.wenger.collectionsandmaps.mapsCalculation;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.wenger.collectionsandmaps.BaseItem;
-import com.wenger.collectionsandmaps.CalculationService;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 import com.wenger.collectionsandmaps.databinding.FragmentCalcMapsBinding;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,7 +22,6 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
 
     private FragmentCalcMapsBinding binding;
     private MapsAdapter adapter;
-    private BroadcastReceiver br;
     private final String KEY = "mapSize";
 
     @Inject
@@ -53,16 +43,9 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
         super.onViewCreated(view, savedInstanceState);
         int mapSize = getArguments() != null ? getArguments().getInt(KEY) : 0;
         adapter = new MapsAdapter(mapsPresenter.createDefaultList());
-        startService(mapSize);
         recyclerViewConfiguration(adapter);
-        registerReceiver();
+        mapsPresenter.mapsCalculation(mapSize);
         onClearClickListener();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(br);
     }
 
     public void recyclerViewConfiguration(MapsAdapter adapter) {
@@ -75,25 +58,6 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
         });
         binding.mapRecycler.setLayoutManager(layoutManager);
         binding.mapRecycler.setAdapter(adapter);
-    }
-
-    private void startService(int mapSize) {
-        Intent service = new Intent(getActivity(), CalculationService.class);
-        service.putExtra(KEY, mapSize);
-        getContext().startService(service);
-    }
-
-    private void registerReceiver() {
-        br = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                int resultMaps = intent.getExtras().getInt("resultMaps");
-                int idMaps = intent.getExtras().getInt("idMaps");
-                mapsPresenter.getDataFromReceiver(resultMaps, idMaps);
-            }
-        };
-        LocalBroadcastManager.getInstance(getContext())
-                .registerReceiver(br, new IntentFilter("CollectionCalculate"));
     }
 
     private void onClearClickListener() {

@@ -8,5 +8,7 @@ public interface ICollectionPresenter {
 
     List<BaseItem> createDefaultList();
 
-    void getDataFromReceiver(int resultCollection, int idCollection);
+    void collectionCalculation(int collectionSize);
+
+    void getNewItem(int resultCollection, int idCollection);
 }

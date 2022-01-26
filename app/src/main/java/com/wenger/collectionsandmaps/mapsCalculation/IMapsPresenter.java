@@ -8,5 +8,7 @@ public interface IMapsPresenter {
 
     List<BaseItem> createDefaultList();
 
-    void getDataFromReceiver(int resultMaps, int idMaps);
+    void mapsCalculation(int mapsSize);
+
+    void getNewItem(int resultMaps, int idMaps);
 }
