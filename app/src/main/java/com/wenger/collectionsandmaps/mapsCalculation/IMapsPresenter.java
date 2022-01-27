@@ -10,5 +10,5 @@ public interface IMapsPresenter {
 
     void mapsCalculation(int mapsSize);
 
-    void getNewItem(int resultMaps, int idMaps);
+    void updateItem(int resultMaps, int idMaps);
 }

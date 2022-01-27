@@ -2,6 +2,7 @@ package com.wenger.collectionsandmaps.mapsCalculation;
 
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.HeaderItem;
+import com.wenger.collectionsandmaps.MapsRepository;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
@@ -26,7 +27,9 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     public static final int MAPS_ID_124 = 124;
     public static final int MAPS_ID_125 = 125;
     public static final int MAPS_ID_126 = 126;
-    private final int VALUE = 500000;
+
+    @Inject
+    MapsRepository repository;
 
     @Inject
     public MapsCalculationPresenter(CalculationMapsFragment mapsView) {
@@ -85,106 +88,49 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     }
 
     public void treeMapAddingNew(Integer mapsSize) {
-        Single.fromCallable(() -> {
-            TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
-            long startTime = System.currentTimeMillis();
-            map.put(map.size() + 1, VALUE);
-            long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        repository.treeMapAddingNew(mapsSize)
                 .subscribe(integer -> {
-                    getNewItem(integer, MAPS_ID_121);
+                    updateItem((Integer) integer, MAPS_ID_121);
                 });
     }
 
     public void treeMapSearchByKey(Integer mapsSize) {
-        Single.fromCallable(() -> {
-            TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
-            long startTime = System.currentTimeMillis();
-            for (int z = 0; z < mapsSize; z++) {
-                if (map.get(z) == 500) {
-                    Integer result = map.get(z);
-                }
-            }
-            long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        repository.treeMapSearchByKey(mapsSize)
                 .subscribe(integer -> {
-                    getNewItem(integer, MAPS_ID_123);
+                    updateItem((Integer) integer, MAPS_ID_123);
                 });
     }
 
     public void treeMapRemove(Integer mapsSize) {
-        Single.fromCallable(() -> {
-            TreeMap<Integer, Integer> map = createTreeMap(mapsSize);
-            long startTime = System.currentTimeMillis();
-            map.remove(100);
-            long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        repository.treeMapRemove(mapsSize)
                 .subscribe(integer -> {
-                    getNewItem(integer, MAPS_ID_125);
+                    updateItem((Integer) integer, MAPS_ID_125);
                 });
     }
 
     public void hashMapAddingNew(Integer mapsSize) {
-        Single.fromCallable(() -> {
-            HashMap<Integer, Integer> map = createHashMap(mapsSize);
-            long startTime = System.currentTimeMillis();
-            map.put(map.size() + 1, VALUE);
-            long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        repository.hashMapAddingNew(mapsSize)
                 .subscribe(integer -> {
-                    getNewItem(integer, MAPS_ID_122);
+                    updateItem((Integer) integer, MAPS_ID_122);
                 });
     }
 
     public void hashMapSearchByKey(Integer mapsSize) {
-        Single.fromCallable(() -> {
-            HashMap<Integer, Integer> map = createHashMap(mapsSize);
-            Integer key = 500;
-            long startTime = System.currentTimeMillis();
-            for (int z = 0; z < mapsSize; z++) {
-                if (key.equals(map.get(z))) {
-                    Integer result = map.get(z);
-                }
-            }
-            long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        repository.hashMapSearchByKey(mapsSize)
                 .subscribe(integer -> {
-                    getNewItem(integer, MAPS_ID_124);
+                    updateItem((Integer) integer, MAPS_ID_124);
                 });
     }
 
     public void hashMapRemove(Integer mapsSize) {
-        Single.fromCallable(() -> {
-            HashMap<Integer, Integer> map = createHashMap(mapsSize);
-            long startTime = System.currentTimeMillis();
-            map.remove(100);
-            long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        repository.hashMapRemove(mapsSize)
                 .subscribe(integer -> {
-                    getNewItem(integer, MAPS_ID_126);
+                    updateItem((Integer) integer, MAPS_ID_126);
                 });
     }
 
     @Override
-    public void getNewItem(int resultMaps, int idMaps) {
+    public void updateItem(int resultMaps, int idMaps) {
         for (int y = 0; y < defaultItems.size(); y++) {
             BaseItem item = defaultItems.get(y);
             if (item instanceof ResultItem && ((ResultItem) item).getId() == idMaps) {
