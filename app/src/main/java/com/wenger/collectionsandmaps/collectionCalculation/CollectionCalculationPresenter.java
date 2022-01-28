@@ -3,6 +3,7 @@ package com.wenger.collectionsandmaps.collectionCalculation;
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CollectionRepository;
 import com.wenger.collectionsandmaps.HeaderItem;
+import com.wenger.collectionsandmaps.ICollectionRepository;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
@@ -45,8 +46,11 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     public static final int COLLECTION_ID_119 = 119;
     public static final int COLLECTION_ID_120 = 120;
 
+//    @Inject
+//    CollectionRepository repository;
+
     @Inject
-    CollectionRepository repository;
+    ICollectionRepository iCollectionRepository;
 
     @Inject
     public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView) {
@@ -122,46 +126,17 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
         copyOnWriteRemovingInTheEnd(collectionSize);
     }
 
-    private ArrayList<Integer> createArrayList(Integer collectionSize) {
-        ArrayList<Integer> list = new ArrayList<>();
-        for (int y = 0; y < collectionSize; y++) {
-            list.add(y);
-        }
-        return list;
-    }
-
-    private LinkedList<Integer> createLinkedList(Integer collectionSize) {
-        LinkedList<Integer> list = new LinkedList<>();
-        for (int i = 0; i < collectionSize; i++) {
-            list.add(i);
-        }
-        return list;
-    }
-
-    private CopyOnWriteArrayList<Integer> createCopyOnWrite(Integer collectionSize) {
-        CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>();
-        for (int i = 0; i < collectionSize; i++) {
-            list.add(i);
-        }
-        return list;
-    }
-
-    private Integer timeResult(long endTime, long startTime) {
-        long timeElapsed = endTime - startTime;
-        return (int) timeElapsed;
-    }
 
     private void arrayListAddInTheBeginning(Integer collectionSize) {
-        repository.arrayListAddInTheBeginning(collectionSize)
+        iCollectionRepository.arrayListAddInTheBeginning(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_100);
                 });
 
     }
 
-
     private void arrayListAddInTheMiddle(Integer collectionSize) {
-        repository.arrayListAddInTheMiddle(collectionSize)
+        iCollectionRepository.arrayListAddInTheMiddle(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_103);
                 });
@@ -169,133 +144,133 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     }
 
     private void arrayListAddInTheEnd(Integer collectionSize) {
-        repository.arrayListAddInTheEnd(collectionSize)
+        iCollectionRepository.arrayListAddInTheEnd(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_106);
                 });
     }
 
     private void arrayListSearchBy(Integer collectionSize) {
-        repository.arrayListSearchBy(collectionSize)
+        iCollectionRepository.arrayListSearchBy(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_109);
                 });
     }
 
     private void arrayListRemoveInTheBeginning(Integer collectionSize) {
-        repository.arrayListRemoveInTheBeginning(collectionSize)
+        iCollectionRepository.arrayListRemoveInTheBeginning(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_112);
                 });
     }
 
     private void arrayListRemoveInTheMiddle(Integer collectionSize) {
-        repository.arrayListRemoveInTheMiddle(collectionSize)
+        iCollectionRepository.arrayListRemoveInTheMiddle(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_115);
                 });
     }
 
     private void arrayListRemoveInTheEnd(Integer collectionSize) {
-        repository.arrayListRemoveInTheEnd(collectionSize)
+        iCollectionRepository.arrayListRemoveInTheEnd(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_118);
                 });
     }
 
     private void linkInListAddInTheBeginning(Integer collectionSize) {
-        repository.linkInListAddInTheBeginning(collectionSize)
+        iCollectionRepository.linkInListAddInTheBeginning(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_101);
                 });
     }
 
     private void linkInListAddInTheMiddle(Integer collectionSize) {
-        repository.linkInListAddInTheMiddle(collectionSize)
+        iCollectionRepository.linkInListAddInTheMiddle(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_104);
                 });
     }
 
     private void linkInListAddInTheEnd(Integer collectionSize) {
-        repository.linkInListAddInTheEnd(collectionSize)
+        iCollectionRepository.linkInListAddInTheEnd(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_107);
                 });
     }
 
     private void linkInListSearByValue(Integer collectionSize) {
-        repository.linkInListSearByValue(collectionSize)
+        iCollectionRepository.linkInListSearByValue(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_110);
                 });
     }
 
     private void linkInListRemoveInTheBeginning(Integer collectionSize) {
-        repository.linkInListRemoveInTheBeginning(collectionSize)
+        iCollectionRepository.linkInListRemoveInTheBeginning(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_113);
                 });
     }
 
     private void linkInListRemoveInTheMiddle(Integer collectionSize) {
-        repository.linkInListRemoveInTheMiddle(collectionSize)
+        iCollectionRepository.linkInListRemoveInTheMiddle(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_116);
                 });
     }
 
     private void linkInListRemoveInTheEnd(Integer collectionSize) {
-        repository.linkInListRemoveInTheEnd(collectionSize)
+        iCollectionRepository.linkInListRemoveInTheEnd(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_119);
                 });
     }
 
     private void copyOnWriteAddInTheBeginning(Integer collectionSize) {
-        repository.copyOnWriteAddInTheBeginning(collectionSize)
+        iCollectionRepository.copyOnWriteAddInTheBeginning(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_102);
                 });
     }
 
     private void copyOnWriteAddInTheMiddle(Integer collectionSize) {
-        repository.copyOnWriteAddInTheMiddle(collectionSize)
+        iCollectionRepository.copyOnWriteAddInTheMiddle(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_105);
                 });
     }
 
     private void copyOnWriteAddInTheEnd(Integer collectionSize) {
-        repository.copyOnWriteAddInTheEnd(collectionSize)
+        iCollectionRepository.copyOnWriteAddInTheEnd(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_108);
                 });
     }
 
     private void copyOnWriteSearchByValue(Integer collectionSize) {
-        repository.copyOnWriteSearchByValue(collectionSize)
+        iCollectionRepository.copyOnWriteSearchByValue(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_111);
                 });
     }
 
     private void copyOnWriteRemovingInTheBeginning(Integer collectionSize) {
-        repository.copyOnWriteRemovingInTheBeginning(collectionSize)
+        iCollectionRepository.copyOnWriteRemovingInTheBeginning(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_114);
                 });
     }
 
     private void copyOnWriteRemovingInTheMiddle(Integer collectionSize) {
-        repository.copyOnWriteRemovingInTheMiddle(collectionSize)
+        iCollectionRepository.copyOnWriteRemovingInTheMiddle(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_117);
                 });
     }
 
     private void copyOnWriteRemovingInTheEnd(Integer collectionSize) {
-        repository.copyOnWriteRemovingInTheEnd(collectionSize)
+        iCollectionRepository.copyOnWriteRemovingInTheEnd(collectionSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_120);
                 });

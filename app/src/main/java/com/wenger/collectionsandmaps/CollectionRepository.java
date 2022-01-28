@@ -12,15 +12,15 @@ import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
-public class CollectionRepository {
+public class CollectionRepository implements ICollectionRepository {
 
     private final int VALUE = 500000;
 
     @Inject
-    public CollectionRepository(){
+    public CollectionRepository() {
     }
 
-    private Integer timeResult(long endTime, long startTime) {
+    private Integer calculateTime(long endTime, long startTime) {
         long timeElapsed = endTime - startTime;
         return (int) timeElapsed;
     }
@@ -49,42 +49,46 @@ public class CollectionRepository {
         return list;
     }
 
+    @Override
     public Single arrayListAddInTheBeginning(Integer collectionSize) {
         return Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(0, VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single arrayListAddInTheMiddle(Integer collectionSize) {
         return Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single arrayListAddInTheEnd(Integer collectionSize) {
         return Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single arrayListSearchBy(Integer collectionSize) {
         return Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
@@ -95,19 +99,20 @@ public class CollectionRepository {
                 }
             }
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single arrayListRemoveInTheBeginning(Integer collectionSize) {
         return Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.remove(0);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -119,60 +124,65 @@ public class CollectionRepository {
             long startTime = System.currentTimeMillis();
             list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single arrayListRemoveInTheEnd(Integer collectionSize) {
         return Single.fromCallable(() -> {
             ArrayList<Integer> list = createArrayList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.remove(list.size() - 1);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListAddInTheBeginning(Integer collectionSize) {
         return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.addFirst(VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListAddInTheMiddle(Integer collectionSize) {
         return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListAddInTheEnd(Integer collectionSize) {
-        return  Single.fromCallable(() -> {
+        return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.addLast(VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListSearByValue(Integer collectionSize) {
         return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
@@ -184,84 +194,91 @@ public class CollectionRepository {
                 }
             }
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListRemoveInTheBeginning(Integer collectionSize) {
         return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.removeFirst();
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListRemoveInTheMiddle(Integer collectionSize) {
         return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single linkInListRemoveInTheEnd(Integer collectionSize) {
         return Single.fromCallable(() -> {
             LinkedList<Integer> list = createLinkedList(collectionSize);
             long startTime = System.currentTimeMillis();
             list.removeLast();
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteAddInTheBeginning(Integer collectionSize) {
         return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(0, VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteAddInTheMiddle(Integer collectionSize) {
         return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteAddInTheEnd(Integer collectionSize) {
-        return  Single.fromCallable(() -> {
+        return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
             list.add(VALUE);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteSearchByValue(Integer collectionSize) {
         return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
@@ -273,43 +290,46 @@ public class CollectionRepository {
                 }
             }
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteRemovingInTheBeginning(Integer collectionSize) {
         return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
             list.remove(0);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteRemovingInTheMiddle(Integer collectionSize) {
         return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
             list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Single copyOnWriteRemovingInTheEnd(Integer collectionSize) {
         return Single.fromCallable(() -> {
             CopyOnWriteArrayList<Integer> list = createCopyOnWrite(collectionSize);
             long startTime = System.currentTimeMillis();
             list.remove(list.size() - 1);
             long endTime = System.currentTimeMillis();
-            return timeResult(endTime, startTime);
+            return calculateTime(endTime, startTime);
         })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());

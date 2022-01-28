@@ -2,6 +2,7 @@ package com.wenger.collectionsandmaps.mapsCalculation;
 
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.HeaderItem;
+import com.wenger.collectionsandmaps.IMapsRepository;
 import com.wenger.collectionsandmaps.MapsRepository;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
@@ -29,7 +30,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     public static final int MAPS_ID_126 = 126;
 
     @Inject
-    MapsRepository repository;
+    IMapsRepository iMapsRepository;
 
     @Inject
     public MapsCalculationPresenter(CalculationMapsFragment mapsView) {
@@ -66,64 +67,43 @@ public class MapsCalculationPresenter implements IMapsPresenter {
         hashMapRemove(mapsSize);
     }
 
-    private TreeMap<Integer, Integer> createTreeMap(Integer mapsSize) {
-        TreeMap<Integer, Integer> list = new TreeMap();
-        for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-            list.put(y, i);
-        }
-        return list;
-    }
-
-    private HashMap<Integer, Integer> createHashMap(Integer mapsSize) {
-        HashMap<Integer, Integer> list = new HashMap();
-        for (int i = 0, y = 0; i < mapsSize; i++, y++) {
-            list.put(y, i);
-        }
-        return list;
-    }
-
-    private Integer timeResult(long endTime, long startTime) {
-        long timeElapsed = endTime - startTime;
-        return (int) timeElapsed;
-    }
-
     public void treeMapAddingNew(Integer mapsSize) {
-        repository.treeMapAddingNew(mapsSize)
+        iMapsRepository.treeMapAddingNew(mapsSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_121);
                 });
     }
 
     public void treeMapSearchByKey(Integer mapsSize) {
-        repository.treeMapSearchByKey(mapsSize)
+        iMapsRepository.treeMapSearchByKey(mapsSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_123);
                 });
     }
 
     public void treeMapRemove(Integer mapsSize) {
-        repository.treeMapRemove(mapsSize)
+        iMapsRepository.treeMapRemove(mapsSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_125);
                 });
     }
 
     public void hashMapAddingNew(Integer mapsSize) {
-        repository.hashMapAddingNew(mapsSize)
+        iMapsRepository.hashMapAddingNew(mapsSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_122);
                 });
     }
 
     public void hashMapSearchByKey(Integer mapsSize) {
-        repository.hashMapSearchByKey(mapsSize)
+        iMapsRepository.hashMapSearchByKey(mapsSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_124);
                 });
     }
 
     public void hashMapRemove(Integer mapsSize) {
-        repository.hashMapRemove(mapsSize)
+        iMapsRepository.hashMapRemove(mapsSize)
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_126);
                 });
