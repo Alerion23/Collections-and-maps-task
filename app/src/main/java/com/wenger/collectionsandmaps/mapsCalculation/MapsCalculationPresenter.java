@@ -16,12 +16,16 @@ import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MapsCalculationPresenter implements IMapsPresenter {
 
     private CalculationMapsFragment mapsView;
     private List<BaseItem> defaultItems;
+    private CompositeDisposable disposables = new CompositeDisposable();
+    private IMapsRepository mapsRepository;
     public static final int MAPS_ID_121 = 121;
     public static final int MAPS_ID_122 = 122;
     public static final int MAPS_ID_123 = 123;
@@ -30,11 +34,9 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     public static final int MAPS_ID_126 = 126;
 
     @Inject
-    IMapsRepository iMapsRepository;
-
-    @Inject
-    public MapsCalculationPresenter(CalculationMapsFragment mapsView) {
+    public MapsCalculationPresenter(CalculationMapsFragment mapsView, IMapsRepository mapsRepository) {
         this.mapsView = mapsView;
+        this.mapsRepository = mapsRepository;
     }
 
     @Override
@@ -67,46 +69,67 @@ public class MapsCalculationPresenter implements IMapsPresenter {
         hashMapRemove(mapsSize);
     }
 
+    @Override
+    public void stop() {
+        disposables.clear();
+    }
+
+    private void addDisposable(Disposable disposable) {
+        disposables.add(disposable);
+    }
+
     public void treeMapAddingNew(Integer mapsSize) {
-        iMapsRepository.treeMapAddingNew(mapsSize)
+        addDisposable(mapsRepository.treeMapAddingNew(mapsSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_121);
-                });
+                }));
     }
 
     public void treeMapSearchByKey(Integer mapsSize) {
-        iMapsRepository.treeMapSearchByKey(mapsSize)
+        addDisposable(mapsRepository.treeMapSearchByKey(mapsSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_123);
-                });
+                }));
     }
 
     public void treeMapRemove(Integer mapsSize) {
-        iMapsRepository.treeMapRemove(mapsSize)
+        addDisposable(mapsRepository.treeMapRemove(mapsSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_125);
-                });
+                }));
     }
 
     public void hashMapAddingNew(Integer mapsSize) {
-        iMapsRepository.hashMapAddingNew(mapsSize)
+        addDisposable(mapsRepository.hashMapAddingNew(mapsSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_122);
-                });
+                }));
     }
 
     public void hashMapSearchByKey(Integer mapsSize) {
-        iMapsRepository.hashMapSearchByKey(mapsSize)
+        addDisposable(mapsRepository.hashMapSearchByKey(mapsSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_124);
-                });
+                }));
     }
 
     public void hashMapRemove(Integer mapsSize) {
-        iMapsRepository.hashMapRemove(mapsSize)
+        addDisposable(mapsRepository.hashMapRemove(mapsSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, MAPS_ID_126);
-                });
+                }));
     }
 
     @Override

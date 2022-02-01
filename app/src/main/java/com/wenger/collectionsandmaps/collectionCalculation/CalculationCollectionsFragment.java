@@ -48,6 +48,12 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
         onClearClickListener();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        collectionPresenter.stop();
+    }
+
     private void recyclerViewConfiguration(CollectionAdapter adapter) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

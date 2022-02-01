@@ -6,12 +6,14 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@Singleton
 public class CollectionRepository implements ICollectionRepository {
 
     private final int VALUE = 500000;
@@ -57,9 +59,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(0, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -70,9 +70,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -83,9 +81,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -100,9 +96,7 @@ public class CollectionRepository implements ICollectionRepository {
             }
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -113,9 +107,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(0);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     public Single arrayListRemoveInTheMiddle(Integer collectionSize) {
@@ -125,9 +117,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -138,9 +128,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(list.size() - 1);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -151,9 +139,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.addFirst(VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -164,9 +150,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -177,9 +161,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.addLast(VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -195,9 +177,7 @@ public class CollectionRepository implements ICollectionRepository {
             }
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -208,9 +188,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.removeFirst();
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -221,9 +199,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -234,9 +210,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.removeLast();
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -247,9 +221,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(0, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -260,9 +232,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(list.size() / 2, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -273,9 +243,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.add(VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -291,9 +259,7 @@ public class CollectionRepository implements ICollectionRepository {
             }
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -304,9 +270,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(0);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -317,9 +281,7 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(list.size() / 2);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -330,8 +292,6 @@ public class CollectionRepository implements ICollectionRepository {
             list.remove(list.size() - 1);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 }

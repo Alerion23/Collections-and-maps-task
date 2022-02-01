@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@Singleton
 public class MapsRepository implements IMapsRepository {
 
     private final int VALUE = 500000;
@@ -46,9 +48,7 @@ public class MapsRepository implements IMapsRepository {
             map.put(map.size() + 1, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -63,9 +63,7 @@ public class MapsRepository implements IMapsRepository {
             }
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -76,9 +74,7 @@ public class MapsRepository implements IMapsRepository {
             map.remove(100);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -89,9 +85,7 @@ public class MapsRepository implements IMapsRepository {
             map.put(map.size() + 1, VALUE);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -107,9 +101,7 @@ public class MapsRepository implements IMapsRepository {
             }
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     @Override
@@ -120,8 +112,6 @@ public class MapsRepository implements IMapsRepository {
             map.remove(100);
             long endTime = System.currentTimeMillis();
             return calculateTime(endTime, startTime);
-        })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 }

@@ -10,5 +10,7 @@ public interface ICollectionPresenter {
 
     void collectionCalculation(int collectionSize);
 
+    void stop();
+
     void updateItem(int resultCollection, int idCollection);
 }

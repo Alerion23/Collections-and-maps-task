@@ -48,6 +48,12 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
         onClearClickListener();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapsPresenter.stop();
+    }
+
     public void recyclerViewConfiguration(MapsAdapter adapter) {
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {

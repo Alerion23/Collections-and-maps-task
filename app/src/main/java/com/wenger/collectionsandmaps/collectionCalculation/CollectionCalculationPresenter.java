@@ -17,6 +17,8 @@ import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
@@ -24,6 +26,8 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
 
     private List<BaseItem> defaultItems;
     private CalculationCollectionsFragment collectionView;
+    private CompositeDisposable disposables = new CompositeDisposable();
+    private ICollectionRepository collectionRepository;
     public static final int COLLECTION_ID_100 = 100;
     public static final int COLLECTION_ID_101 = 101;
     public static final int COLLECTION_ID_102 = 102;
@@ -46,15 +50,10 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     public static final int COLLECTION_ID_119 = 119;
     public static final int COLLECTION_ID_120 = 120;
 
-//    @Inject
-//    CollectionRepository repository;
-
     @Inject
-    ICollectionRepository iCollectionRepository;
-
-    @Inject
-    public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView) {
+    public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView, ICollectionRepository collectionRepository) {
         this.collectionView = collectionView;
+        this.collectionRepository = collectionRepository;
     }
 
     @Override
@@ -126,154 +125,204 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
         copyOnWriteRemovingInTheEnd(collectionSize);
     }
 
+    @Override
+    public void stop() {
+        disposables.clear();
+    }
+
+    private void addDisposable(Disposable disposable) {
+        disposables.add(disposable);
+    }
 
     private void arrayListAddInTheBeginning(Integer collectionSize) {
-        iCollectionRepository.arrayListAddInTheBeginning(collectionSize)
+        addDisposable(collectionRepository.arrayListAddInTheBeginning(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_100);
-                });
+                }));
 
     }
 
     private void arrayListAddInTheMiddle(Integer collectionSize) {
-        iCollectionRepository.arrayListAddInTheMiddle(collectionSize)
+        addDisposable(collectionRepository.arrayListAddInTheMiddle(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_103);
-                });
+                }));
 
     }
 
     private void arrayListAddInTheEnd(Integer collectionSize) {
-        iCollectionRepository.arrayListAddInTheEnd(collectionSize)
+        addDisposable(collectionRepository.arrayListAddInTheEnd(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_106);
-                });
+                }));
     }
 
     private void arrayListSearchBy(Integer collectionSize) {
-        iCollectionRepository.arrayListSearchBy(collectionSize)
+        addDisposable(collectionRepository.arrayListSearchBy(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_109);
-                });
+                }));
     }
 
     private void arrayListRemoveInTheBeginning(Integer collectionSize) {
-        iCollectionRepository.arrayListRemoveInTheBeginning(collectionSize)
+        addDisposable(collectionRepository.arrayListRemoveInTheBeginning(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_112);
-                });
+                }));
     }
 
     private void arrayListRemoveInTheMiddle(Integer collectionSize) {
-        iCollectionRepository.arrayListRemoveInTheMiddle(collectionSize)
+        addDisposable(collectionRepository.arrayListRemoveInTheMiddle(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_115);
-                });
+                }));
     }
 
     private void arrayListRemoveInTheEnd(Integer collectionSize) {
-        iCollectionRepository.arrayListRemoveInTheEnd(collectionSize)
+        addDisposable(collectionRepository.arrayListRemoveInTheEnd(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_118);
-                });
+                }));
     }
 
     private void linkInListAddInTheBeginning(Integer collectionSize) {
-        iCollectionRepository.linkInListAddInTheBeginning(collectionSize)
+        addDisposable(collectionRepository.linkInListAddInTheBeginning(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_101);
-                });
+                }));
     }
 
     private void linkInListAddInTheMiddle(Integer collectionSize) {
-        iCollectionRepository.linkInListAddInTheMiddle(collectionSize)
+        addDisposable(collectionRepository.linkInListAddInTheMiddle(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_104);
-                });
+                }));
     }
 
     private void linkInListAddInTheEnd(Integer collectionSize) {
-        iCollectionRepository.linkInListAddInTheEnd(collectionSize)
+        addDisposable(collectionRepository.linkInListAddInTheEnd(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_107);
-                });
+                }));
     }
 
     private void linkInListSearByValue(Integer collectionSize) {
-        iCollectionRepository.linkInListSearByValue(collectionSize)
+        addDisposable(collectionRepository.linkInListSearByValue(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_110);
-                });
+                }));
     }
 
     private void linkInListRemoveInTheBeginning(Integer collectionSize) {
-        iCollectionRepository.linkInListRemoveInTheBeginning(collectionSize)
+        addDisposable(collectionRepository.linkInListRemoveInTheBeginning(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_113);
-                });
+                }));
     }
 
     private void linkInListRemoveInTheMiddle(Integer collectionSize) {
-        iCollectionRepository.linkInListRemoveInTheMiddle(collectionSize)
+        addDisposable(collectionRepository.linkInListRemoveInTheMiddle(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_116);
-                });
+                }));
     }
 
     private void linkInListRemoveInTheEnd(Integer collectionSize) {
-        iCollectionRepository.linkInListRemoveInTheEnd(collectionSize)
+        addDisposable(collectionRepository.linkInListRemoveInTheEnd(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_119);
-                });
+                }));
     }
 
     private void copyOnWriteAddInTheBeginning(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteAddInTheBeginning(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteAddInTheBeginning(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_102);
-                });
+                }));
     }
 
     private void copyOnWriteAddInTheMiddle(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteAddInTheMiddle(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteAddInTheMiddle(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_105);
-                });
+                }));
     }
 
     private void copyOnWriteAddInTheEnd(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteAddInTheEnd(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteAddInTheEnd(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_108);
-                });
+                }));
     }
 
     private void copyOnWriteSearchByValue(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteSearchByValue(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteSearchByValue(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_111);
-                });
+                }));
     }
 
     private void copyOnWriteRemovingInTheBeginning(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteRemovingInTheBeginning(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteRemovingInTheBeginning(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_114);
-                });
+                }));
     }
 
     private void copyOnWriteRemovingInTheMiddle(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteRemovingInTheMiddle(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteRemovingInTheMiddle(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_117);
-                });
+                }));
     }
 
     private void copyOnWriteRemovingInTheEnd(Integer collectionSize) {
-        iCollectionRepository.copyOnWriteRemovingInTheEnd(collectionSize)
+        addDisposable(collectionRepository.copyOnWriteRemovingInTheEnd(collectionSize)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_120);
-                });
+                }));
     }
 
     @Override
