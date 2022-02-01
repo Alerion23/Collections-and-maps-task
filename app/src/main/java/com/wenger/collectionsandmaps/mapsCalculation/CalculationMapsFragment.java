@@ -22,7 +22,7 @@ public class CalculationMapsFragment extends DaggerFragment implements IMapsView
 
     private FragmentCalcMapsBinding binding;
     private MapsAdapter adapter;
-    private final String KEY = "mapSize";
+    private static final String KEY = "mapSize";
 
     @Inject
     MapsCalculationPresenter mapsPresenter;

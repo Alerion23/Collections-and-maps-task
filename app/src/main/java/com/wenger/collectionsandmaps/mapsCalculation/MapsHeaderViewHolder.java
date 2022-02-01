@@ -14,7 +14,7 @@ import java.util.Base64;
 import java.util.List;
 
 class MapsHeaderViewHolder extends RecyclerView.ViewHolder {
-    TextView header;
+    private TextView header;
 
     public MapsHeaderViewHolder(@NonNull View itemView) {
         super(itemView);

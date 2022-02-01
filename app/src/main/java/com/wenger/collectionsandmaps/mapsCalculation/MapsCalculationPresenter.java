@@ -26,6 +26,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     private List<BaseItem> defaultItems;
     private CompositeDisposable disposables = new CompositeDisposable();
     private IMapsRepository mapsRepository;
+
     public static final int MAPS_ID_121 = 121;
     public static final int MAPS_ID_122 = 122;
     public static final int MAPS_ID_123 = 123;

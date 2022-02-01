@@ -14,7 +14,7 @@ import java.util.List;
 
 class CollectionHeaderViewHolder extends RecyclerView.ViewHolder {
 
-    TextView header;
+    private TextView header;
 
     public CollectionHeaderViewHolder(@NonNull View itemView) {
         super(itemView);

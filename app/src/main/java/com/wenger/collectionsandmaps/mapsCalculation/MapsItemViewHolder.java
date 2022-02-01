@@ -14,9 +14,10 @@ import com.wenger.collectionsandmaps.ResultItem;
 import java.util.List;
 
 class MapsItemViewHolder extends RecyclerView.ViewHolder {
-    TextView title;
-    TextView result;
-    ProgressBar loading;
+
+    private TextView title;
+    private TextView result;
+    private ProgressBar loading;
 
     public MapsItemViewHolder(@NonNull View itemView) {
         super(itemView);

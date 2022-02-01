@@ -28,6 +28,7 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     private CalculationCollectionsFragment collectionView;
     private CompositeDisposable disposables = new CompositeDisposable();
     private ICollectionRepository collectionRepository;
+
     public static final int COLLECTION_ID_100 = 100;
     public static final int COLLECTION_ID_101 = 101;
     public static final int COLLECTION_ID_102 = 102;

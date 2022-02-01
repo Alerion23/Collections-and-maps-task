@@ -19,7 +19,7 @@ public class MapsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<BaseItem> itemList;
     public static final int VIEW_TYPE_HEADER = 0;
     public static final int VIEW_TYPE_ITEM = 1;
-    private final String HEADER_ITEM = "header";
+    private static final String HEADER_ITEM = "header";
 
     public MapsAdapter(List<BaseItem> itemList) {
         this.itemList = itemList;

@@ -15,9 +15,9 @@ import java.util.List;
 
 class CollectionItemViewHolder extends RecyclerView.ViewHolder {
 
-    TextView title;
-    TextView result;
-    ProgressBar loading;
+    private TextView title;
+    private TextView result;
+    private ProgressBar loading;
 
     public CollectionItemViewHolder(@NonNull View itemView) {
         super(itemView);

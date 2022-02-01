@@ -22,7 +22,7 @@ public class CalculationCollectionsFragment extends DaggerFragment implements IC
 
     private FragmentCalcCollectionsBinding binding;
     private CollectionAdapter adapter;
-    private final String KEY = "collectionSize";
+    private static final String KEY = "collectionSize";
 
     @Inject
     CollectionCalculationPresenter collectionPresenter;
