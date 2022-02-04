@@ -3,6 +3,7 @@
     package="com.wenger.collectionsandmaps">
 
     <application
+        android:name=".app.MyApplication"
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:hardwareAccelerated="false"
@@ -21,8 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".CalculationService" />
 
     </application>
 

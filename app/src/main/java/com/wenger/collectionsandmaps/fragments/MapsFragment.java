@@ -1,20 +1,18 @@
-package fragments;
+package com.wenger.collectionsandmaps.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.wenger.collectionsandmaps.BaseFragment;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.databinding.FragmentMapsBinding;
 
-import java.nio.MappedByteBuffer;
+import com.wenger.collectionsandmaps.mapsCalculation.CalculationMapsFragment;
 
 
 public class MapsFragment extends BaseFragment {
