@@ -79,7 +79,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
         disposables.add(disposable);
     }
 
-    public void treeMapAddingNew(Integer mapsSize) {
+    private void treeMapAddingNew(Integer mapsSize) {
         addDisposable(mapsRepository.treeMapAddingNew(mapsSize)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,7 +88,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
                 }));
     }
 
-    public void treeMapSearchByKey(Integer mapsSize) {
+    private void treeMapSearchByKey(Integer mapsSize) {
         addDisposable(mapsRepository.treeMapSearchByKey(mapsSize)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,7 +97,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
                 }));
     }
 
-    public void treeMapRemove(Integer mapsSize) {
+    private void treeMapRemove(Integer mapsSize) {
         addDisposable(mapsRepository.treeMapRemove(mapsSize)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -106,7 +106,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
                 }));
     }
 
-    public void hashMapAddingNew(Integer mapsSize) {
+    private void hashMapAddingNew(Integer mapsSize) {
         addDisposable(mapsRepository.hashMapAddingNew(mapsSize)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -115,7 +115,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
                 }));
     }
 
-    public void hashMapSearchByKey(Integer mapsSize) {
+    private void hashMapSearchByKey(Integer mapsSize) {
         addDisposable(mapsRepository.hashMapSearchByKey(mapsSize)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -124,7 +124,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
                 }));
     }
 
-    public void hashMapRemove(Integer mapsSize) {
+    private void hashMapRemove(Integer mapsSize) {
         addDisposable(mapsRepository.hashMapRemove(mapsSize)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
