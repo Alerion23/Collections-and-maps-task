@@ -22,7 +22,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MapsCalculationPresenter implements IMapsPresenter {
 
-    private CalculationMapsFragment mapsView;
+    private IMapsView mapsView;
     private List<BaseItem> defaultItems;
     private CompositeDisposable disposables = new CompositeDisposable();
     private IMapsRepository mapsRepository;
@@ -35,7 +35,7 @@ public class MapsCalculationPresenter implements IMapsPresenter {
     public static final int MAPS_ID_126 = 126;
 
     @Inject
-    public MapsCalculationPresenter(CalculationMapsFragment mapsView, IMapsRepository mapsRepository) {
+    public MapsCalculationPresenter(IMapsView mapsView, IMapsRepository mapsRepository) {
         this.mapsView = mapsView;
         this.mapsRepository = mapsRepository;
     }

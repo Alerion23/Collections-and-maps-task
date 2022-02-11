@@ -1,5 +1,7 @@
 package com.wenger.collectionsandmaps.collectionCalculation;
 
+import android.util.Log;
+
 import com.wenger.collectionsandmaps.BaseItem;
 import com.wenger.collectionsandmaps.CollectionRepository;
 import com.wenger.collectionsandmaps.HeaderItem;
@@ -16,7 +18,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -25,7 +29,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class CollectionCalculationPresenter implements ICollectionPresenter {
 
     private List<BaseItem> defaultItems;
-    private CalculationCollectionsFragment collectionView;
+    private ICollectionView collectionView;
     private CompositeDisposable disposables = new CompositeDisposable();
     private ICollectionRepository collectionRepository;
 
@@ -52,7 +56,7 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
     public static final int COLLECTION_ID_120 = 120;
 
     @Inject
-    public CollectionCalculationPresenter(CalculationCollectionsFragment collectionView, ICollectionRepository collectionRepository) {
+    public CollectionCalculationPresenter(ICollectionView collectionView, ICollectionRepository collectionRepository) {
         this.collectionView = collectionView;
         this.collectionRepository = collectionRepository;
     }
@@ -142,7 +146,6 @@ public class CollectionCalculationPresenter implements ICollectionPresenter {
                 .subscribe(integer -> {
                     updateItem((Integer) integer, COLLECTION_ID_100);
                 }));
-
     }
 
     private void arrayListAddInTheMiddle(Integer collectionSize) {

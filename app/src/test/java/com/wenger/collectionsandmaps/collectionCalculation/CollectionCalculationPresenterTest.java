@@ -1,28 +1,43 @@
 package com.wenger.collectionsandmaps.collectionCalculation;
 
-import static org.junit.Assert.assertTrue;
-
 import com.wenger.collectionsandmaps.BaseItem;
+import com.wenger.collectionsandmaps.CollectionRepository;
 import com.wenger.collectionsandmaps.HeaderItem;
 import com.wenger.collectionsandmaps.ICollectionRepository;
 import com.wenger.collectionsandmaps.R;
 import com.wenger.collectionsandmaps.ResultItem;
 
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 @RunWith(JUnit4.class)
 public class CollectionCalculationPresenterTest {
 
-    ICollectionRepository collectionRepository;
-    CalculationCollectionsFragment collectionsFragment;
-    private int COLLECTION_SIZE = 1000000;
+    private ICollectionView viewMock;
+    private ICollectionRepository repository;
+    private CollectionCalculationPresenter presenter;
+    private ResultItem resultItem;
+    private CompositeDisposable disposables;
+    private int numberOfInvocations;
+    private int TIMEOUT = 1000;
+    private int COLLECTION_SIZE = 1;
 
+    @Before
+    public void setup() {
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
+    }
 
     @Test
     public void testCreateDefaultList() {
@@ -67,18 +82,68 @@ public class CollectionCalculationPresenterTest {
                 new ResultItem(-1, linkedListTitle, CollectionCalculationPresenter.COLLECTION_ID_119),
                 new ResultItem(-1, copyOnWriteTitle, CollectionCalculationPresenter.COLLECTION_ID_120));
 
-        CollectionCalculationPresenter presenter = new CollectionCalculationPresenter(collectionsFragment,
-                collectionRepository);
-        assertTrue(defaultList.size() == presenter.createDefaultList().size());
+        repository = new CollectionRepository();
+        viewMock = Mockito.mock(ICollectionView.class);
+        presenter = new CollectionCalculationPresenter(viewMock, repository);
+        List<BaseItem> createDefaultList = presenter.createDefaultList();
+        Assert.assertTrue(defaultList.size() == createDefaultList.size());
     }
 
     @Test
-    public void addInTheBeginningTest() {
-        CollectionCalculationPresenter presenterMock = Mockito.mock(CollectionCalculationPresenter.class);
-        Mockito.doCallRealMethod().when(presenterMock).collectionCalculation(Mockito.anyInt());
-        presenterMock.collectionCalculation(COLLECTION_SIZE);
-        Mockito.verify(presenterMock).collectionCalculation(COLLECTION_SIZE);
+    public void collectionCalculationTest() {
+        numberOfInvocations = 21;
+        viewMock = Mockito.mock(ICollectionView.class);
+        repository = new CollectionRepository();
+        presenter = new CollectionCalculationPresenter(viewMock, repository);
+        resultItem = Mockito.mock(ResultItem.class);
+        Mockito.doNothing().when(viewMock).onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
+        presenter.createDefaultList();
+        presenter.collectionCalculation(COLLECTION_SIZE);
+        Mockito.verify(viewMock, Mockito.timeout(TIMEOUT).times(numberOfInvocations))
+                .onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
     }
 
+    @Test
+    public void updateItemTestSuccess() {
+        int collectionResult = 1;
+        int collectionId = 100;
+        numberOfInvocations = 1;
+        viewMock = Mockito.mock(ICollectionView.class);
+        repository = new CollectionRepository();
+        presenter = new CollectionCalculationPresenter(viewMock, repository);
+        resultItem = Mockito.mock(ResultItem.class);
+        Mockito.doNothing().when(viewMock).onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
+        presenter.createDefaultList();
+        presenter.updateItem(collectionResult, collectionId);
+        Mockito.verify(viewMock, Mockito.times(numberOfInvocations))
+                .onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
+    }
 
+    @Test
+    public void updateItemTestFail() {
+        int collectionResult = 1;
+        int collectionId = 150;
+        numberOfInvocations = 0;
+        viewMock = Mockito.mock(ICollectionView.class);
+        repository = new CollectionRepository();
+        presenter = new CollectionCalculationPresenter(viewMock, repository);
+        resultItem = Mockito.mock(ResultItem.class);
+        Mockito.doNothing().when(viewMock).onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
+        presenter.createDefaultList();
+        presenter.updateItem(collectionResult, collectionId);
+        Mockito.verify(viewMock, Mockito.times(numberOfInvocations))
+                .onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
+    }
+
+    @Test
+    public void stopTest() {
+        disposables = new CompositeDisposable();
+        viewMock = Mockito.mock(ICollectionView.class);
+        repository = new CollectionRepository();
+        presenter = new CollectionCalculationPresenter(viewMock, repository);
+        presenter.createDefaultList();
+        presenter.collectionCalculation(COLLECTION_SIZE);
+        presenter.stop();
+        Assert.assertEquals(0, disposables.size());
+    }
 }
