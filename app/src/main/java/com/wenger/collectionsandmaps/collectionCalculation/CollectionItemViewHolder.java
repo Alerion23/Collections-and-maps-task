@@ -13,7 +13,7 @@ import com.wenger.collectionsandmaps.ResultItem;
 
 import java.util.List;
 
-class CollectionItemViewHolder extends RecyclerView.ViewHolder {
+public class CollectionItemViewHolder extends RecyclerView.ViewHolder {
 
     private TextView title;
     private TextView result;

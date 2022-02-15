@@ -37,6 +37,9 @@ public class MapsCalculationPresenterTest {
     @Before
     public void setup() {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
+        viewMock = Mockito.mock(IMapsView.class);
+        repository = new MapsRepository();
+        presenter = new MapsCalculationPresenter(viewMock, repository);
     }
 
     @Test
@@ -57,7 +60,6 @@ public class MapsCalculationPresenterTest {
                 new HeaderItem(removingHeader),
                 new ResultItem(-1, treeMapTitle, MapsCalculationPresenter.MAPS_ID_125),
                 new ResultItem(-1, hashMapTitle, MapsCalculationPresenter.MAPS_ID_126));
-        presenter = new MapsCalculationPresenter(viewMock, repository);
         List<BaseItem> createDefaultList = presenter.createDefaultList();
         assertTrue(defaultItems.size() == createDefaultList.size());
     }
@@ -65,9 +67,6 @@ public class MapsCalculationPresenterTest {
     @Test
     public void mapsCalculationTest() {
         numberOfInvocations = 6;
-        viewMock = Mockito.mock(IMapsView.class);
-        repository = new MapsRepository();
-        presenter = new MapsCalculationPresenter(viewMock, repository);
         resultItem = Mockito.mock(ResultItem.class);
         Mockito.doNothing().when(viewMock).onMapsItemReceived(ArgumentMatchers.any(resultItem.getClass()));
         presenter.createDefaultList();
@@ -81,9 +80,6 @@ public class MapsCalculationPresenterTest {
         int mapsResult = 1;
         int mapsId = 121;
         numberOfInvocations = 1;
-        viewMock = Mockito.mock(IMapsView.class);
-        repository = new MapsRepository();
-        presenter = new MapsCalculationPresenter(viewMock, repository);
         resultItem = Mockito.mock(ResultItem.class);
         Mockito.doNothing().when(viewMock).onMapsItemReceived(ArgumentMatchers.any(resultItem.getClass()));
         presenter.createDefaultList();
@@ -97,9 +93,6 @@ public class MapsCalculationPresenterTest {
         int mapsResult = 1;
         int mapsId = 150;
         numberOfInvocations = 0;
-        viewMock = Mockito.mock(IMapsView.class);
-        repository = new MapsRepository();
-        presenter = new MapsCalculationPresenter(viewMock, repository);
         resultItem = Mockito.mock(ResultItem.class);
         Mockito.doNothing().when(viewMock).onMapsItemReceived(ArgumentMatchers.any(resultItem.getClass()));
         presenter.createDefaultList();
@@ -111,9 +104,6 @@ public class MapsCalculationPresenterTest {
     @Test
     public void stopTest() {
         disposables = new CompositeDisposable();
-        viewMock = Mockito.mock(IMapsView.class);
-        repository = new MapsRepository();
-        presenter = new MapsCalculationPresenter(viewMock, repository);
         presenter.createDefaultList();
         presenter.mapsCalculation(MAPS_SIZE);
         presenter.stop();

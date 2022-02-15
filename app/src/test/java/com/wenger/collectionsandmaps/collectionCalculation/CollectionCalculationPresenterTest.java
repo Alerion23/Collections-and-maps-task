@@ -37,6 +37,9 @@ public class CollectionCalculationPresenterTest {
     @Before
     public void setup() {
         RxAndroidPlugins.setInitMainThreadSchedulerHandler(scheduler -> Schedulers.trampoline());
+        repository = new CollectionRepository();
+        viewMock = Mockito.mock(ICollectionView.class);
+        presenter = new CollectionCalculationPresenter(viewMock, repository);
     }
 
     @Test
@@ -82,9 +85,6 @@ public class CollectionCalculationPresenterTest {
                 new ResultItem(-1, linkedListTitle, CollectionCalculationPresenter.COLLECTION_ID_119),
                 new ResultItem(-1, copyOnWriteTitle, CollectionCalculationPresenter.COLLECTION_ID_120));
 
-        repository = new CollectionRepository();
-        viewMock = Mockito.mock(ICollectionView.class);
-        presenter = new CollectionCalculationPresenter(viewMock, repository);
         List<BaseItem> createDefaultList = presenter.createDefaultList();
         Assert.assertTrue(defaultList.size() == createDefaultList.size());
     }
@@ -92,9 +92,6 @@ public class CollectionCalculationPresenterTest {
     @Test
     public void collectionCalculationTest() {
         numberOfInvocations = 21;
-        viewMock = Mockito.mock(ICollectionView.class);
-        repository = new CollectionRepository();
-        presenter = new CollectionCalculationPresenter(viewMock, repository);
         resultItem = Mockito.mock(ResultItem.class);
         Mockito.doNothing().when(viewMock).onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
         presenter.createDefaultList();
@@ -108,9 +105,6 @@ public class CollectionCalculationPresenterTest {
         int collectionResult = 1;
         int collectionId = 100;
         numberOfInvocations = 1;
-        viewMock = Mockito.mock(ICollectionView.class);
-        repository = new CollectionRepository();
-        presenter = new CollectionCalculationPresenter(viewMock, repository);
         resultItem = Mockito.mock(ResultItem.class);
         Mockito.doNothing().when(viewMock).onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
         presenter.createDefaultList();
@@ -124,9 +118,6 @@ public class CollectionCalculationPresenterTest {
         int collectionResult = 1;
         int collectionId = 150;
         numberOfInvocations = 0;
-        viewMock = Mockito.mock(ICollectionView.class);
-        repository = new CollectionRepository();
-        presenter = new CollectionCalculationPresenter(viewMock, repository);
         resultItem = Mockito.mock(ResultItem.class);
         Mockito.doNothing().when(viewMock).onCollectionItemReceived(ArgumentMatchers.any(resultItem.getClass()));
         presenter.createDefaultList();
@@ -138,9 +129,6 @@ public class CollectionCalculationPresenterTest {
     @Test
     public void stopTest() {
         disposables = new CompositeDisposable();
-        viewMock = Mockito.mock(ICollectionView.class);
-        repository = new CollectionRepository();
-        presenter = new CollectionCalculationPresenter(viewMock, repository);
         presenter.createDefaultList();
         presenter.collectionCalculation(COLLECTION_SIZE);
         presenter.stop();
